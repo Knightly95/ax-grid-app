@@ -1,0 +1,30 @@
+{
+  "name": "axgrid-ws",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "API server for energy offerings",
+  "main": "socket-server.ts",
+  "scripts": {
+    "start": "tsx server.ts",
+    "dev": "tsx watch server.ts",
+    "ws": "tsx socket-server.ts",
+    "ws:dev": "tsx watch socket-server.ts",
+    "start:all": "concurrently \"npm run start\" \"npm run ws\"",
+    "dev:all": "concurrently \"npm run dev\" \"npm run ws:dev\""
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.0.0",
+    "concurrently": "^8.2.2",
+    "tsx": "^4.7.0",
+    "typescript": "^5.5.3"
+  }
+}

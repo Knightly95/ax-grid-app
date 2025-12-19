@@ -4,14 +4,21 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "install:all": "npm install && cd api && npm install",
     "dev": "vite",
+    "ws": "cd api && npm run ws",
+    "dev:all": "concurrently \"npm run dev\" \"npm run ws\" --names \"frontend,backend\" --prefix-colors \"cyan,magenta\"",
+    "preview": "npm run build && npm run preview:withoutBuild",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview:withoutBuild": "concurrently \"vite preview\" \"npm run ws\" --names \"frontend,backend\" --prefix-colors \"cyan,magenta\""
   },
   "dependencies": {
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.11.0",
+    "socket.io-client": "^4.8.1",
+    "zustand": "^5.0.9"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -19,9 +26,12 @@
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.2",
+    "concurrently": "^9.2.1",
     "eslint": "^9.39.1",
+    "eslint-plugin-react-dom": "^2.3.13",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
+    "eslint-plugin-react-x": "^2.3.13",
     "globals": "^16.5.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
