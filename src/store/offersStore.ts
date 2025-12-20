@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { Offer } from '@/shared/models/offer';
+import type { Offer } from '@/shared/types/offer';
 import type { ConnectionStatus } from '@/services/socket/socketEvents';
 
 interface OpsMetrics {

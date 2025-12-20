@@ -1,20 +1,21 @@
 import type { GridColDef } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-
+import { Container, Typography, Button, Box } from '@mui/material';
 import { useOffersStore } from '@/store/offersStore';
-import type { Offer } from '@/shared/models/offer';
+import type { Offer } from '@/shared/types/offer';
 import DataTable, { type RowAction } from '@/shared/components/data-table';
 import { socketService } from '@/services/socket/socketService';
 
 export default function OfferList() {
-  const { offers } = useOffersStore();
+  const offers = useOffersStore((state) => state.offers);
   const navigate = useNavigate();
 
   const rowActions: RowAction<Offer>[] = [
     {
       label: 'Edit',
       onClick: (offer) => {
-        void navigate(`/offers/edit/${offer.id}`);
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        navigate(`/offers/edit/${offer.id}`);
       },
     },
     {
@@ -59,27 +60,27 @@ export default function OfferList() {
   ];
 
   return (
-    <div>
-      <h1>Energy Offers</h1>
+    <Container maxWidth="xl">
+      <Box sx={{ py: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Energy Offers
+        </Typography>
 
-      <div className="offer-list">
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginBottom: '16px',
-          }}
-        >
-          <button onClick={() => void navigate('/offers/add/new')}>Add Offer</button>
-        </div>
-        <div className="offers-grid">
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+          <Button variant="contained" onClick={() => navigate('/offers/add/new')}>
+            Add Offer
+          </Button>
+        </Box>
+
+        <Box>
           {offers.length === 0 ? (
-            <p>No offers available. Waiting for data...</p>
+            <Typography>No offers available. Waiting for data...</Typography>
           ) : (
             <DataTable rows={offers} columns={columns} actions={rowActions} />
           )}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Container>
   );
 }

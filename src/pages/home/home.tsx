@@ -1,37 +1,60 @@
+import { Container, Typography, Box, Paper } from '@mui/material';
 import { useOffersStore } from '@/store/offersStore';
 
 export default function Home() {
   const { connectionStatus, metrics, offers } = useOffersStore();
 
   return (
-    <div>
-      <h1>Energy Grid Dashboard</h1>
+    <Container maxWidth="lg">
+      <Box sx={{ py: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Energy Grid Dashboard
+        </Typography>
 
-      <div className="status-card">
-        <h2>Connection Status</h2>
-        <p>
-          Status: <strong>{connectionStatus}</strong>
-        </p>
+        <Paper sx={{ p: 3, mb: 3 }}>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Connection Status
+          </Typography>
+          <Typography>
+            Status: <strong>{connectionStatus}</strong>
+          </Typography>
 
-        {metrics && (
-          <>
-            <p>Total Offers: {metrics.totalOffers}</p>
-            <p>Average Price: €{metrics.avgPrice.toFixed(2)}/MWh</p>
-          </>
-        )}
+          {metrics && (
+            <>
+              <Typography>Total Offers: {metrics.totalOffers}</Typography>
+              <Typography>Average Price: €{metrics.avgPrice.toFixed(2)}/MWh</Typography>
+            </>
+          )}
 
-        <p>Live Offers Count: {offers.length}</p>
-      </div>
+          <Typography>Live Offers Count: {offers.length}</Typography>
+        </Paper>
 
-      <div className="quick-stats">
-        <h2>Quick Stats</h2>
-        <p>Solar Offers: {offers.filter((o) => o.sourceType === 'solar').length}</p>
-        <p>Gas Offers: {offers.filter((o) => o.sourceType === 'gas').length}</p>
-        <p>Hydro Offers: {offers.filter((o) => o.sourceType === 'hydro').length}</p>
-        <p>Wind Offers: {offers.filter((o) => o.sourceType === 'wind').length}</p>
-        <p>Active Offers: {offers.filter((o) => o.status === 'active').length}</p>
-        <p>Pending Offers: {offers.filter((o) => o.status === 'pending').length}</p>
-      </div>
-    </div>
+        <Paper sx={{ p: 3 }}>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Quick Stats
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <Typography>
+              Solar Offers: {offers.filter((o) => o.sourceType === 'solar').length}
+            </Typography>
+            <Typography>
+              Gas Offers: {offers.filter((o) => o.sourceType === 'gas').length}
+            </Typography>
+            <Typography>
+              Hydro Offers: {offers.filter((o) => o.sourceType === 'hydro').length}
+            </Typography>
+            <Typography>
+              Wind Offers: {offers.filter((o) => o.sourceType === 'wind').length}
+            </Typography>
+            <Typography>
+              Active Offers: {offers.filter((o) => o.status === 'active').length}
+            </Typography>
+            <Typography>
+              Pending Offers: {offers.filter((o) => o.status === 'pending').length}
+            </Typography>
+          </Box>
+        </Paper>
+      </Box>
+    </Container>
   );
 }

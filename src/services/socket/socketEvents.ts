@@ -1,4 +1,4 @@
-import type { Offer } from '@/shared/models/offer';
+import type { Offer } from '@/shared/types/offer';
 
 export const SOCKET_EVENTS = {
   OFFERS_INIT: 'offers:init',

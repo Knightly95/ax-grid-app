@@ -1,0 +1,529 @@
+{
+  "common": [
+    {
+      "key": "price",
+      "label": "Price per Unit",
+      "type": "number",
+      "unit": "EUR/MWh",
+      "required": false,
+      "placeholder": "e.g., 75"
+    },
+    {
+      "key": "minQuantity",
+      "label": "Minimum Purchase Quantity",
+      "type": "number",
+      "unit": "MWh",
+      "required": false,
+      "placeholder": "e.g., 10"
+    },
+    {
+      "key": "contractTerms",
+      "label": "Contract Terms",
+      "type": "select",
+      "options": [
+        {
+          "value": "spot",
+          "label": "Spot (Day-Ahead)"
+        },
+        {
+          "value": "monthly",
+          "label": "Monthly"
+        },
+        {
+          "value": "quarterly",
+          "label": "Quarterly"
+        }
+      ],
+      "required": false
+    },
+    {
+      "key": "paymentTerms",
+      "label": "Payment Terms",
+      "type": "select",
+      "options": [
+        {
+          "value": "net15",
+          "label": "Net 15"
+        },
+        {
+          "value": "net30",
+          "label": "Net 30"
+        },
+        {
+          "value": "prepaid",
+          "label": "Prepaid"
+        }
+      ],
+      "required": false
+    }
+  ],
+  "sources": {
+    "solar": {
+      "label": "Solar",
+      "fields": [
+        {
+          "key": "capacity",
+          "label": "Capacity",
+          "type": "number",
+          "unit": "MW",
+          "required": true
+        },
+        {
+          "key": "location",
+          "label": "Location",
+          "type": "text",
+          "placeholder": "e.g., Seville, ES",
+          "required": true
+        },
+        {
+          "key": "outputPrediction",
+          "label": "Energy Output Prediction",
+          "type": "number",
+          "unit": "MWh/day",
+          "required": false
+        },
+        {
+          "key": "availabilityWindow",
+          "label": "Time of Availability",
+          "type": "select",
+          "options": [
+            {
+              "value": "daylight",
+              "label": "Daylight Hours"
+            },
+            {
+              "value": "peak",
+              "label": "Peak (10:00–16:00)"
+            }
+          ],
+          "required": false
+        },
+        {
+          "key": "certifications",
+          "label": "Certifications",
+          "type": "checkbox-group",
+          "options": [
+            {
+              "value": "rec",
+              "label": "REC"
+            },
+            {
+              "value": "go",
+              "label": "Guarantee of Origin"
+            }
+          ],
+          "required": false
+        }
+      ]
+    },
+    "gas": {
+      "label": "Gas",
+      "fields": [
+        {
+          "key": "capacity",
+          "label": "Capacity",
+          "type": "number",
+          "unit": "MW",
+          "required": true
+        },
+        {
+          "key": "deliveryMethod",
+          "label": "Delivery Method",
+          "type": "radio",
+          "options": [
+            {
+              "value": "pipeline",
+              "label": "Pipeline"
+            },
+            {
+              "value": "lng",
+              "label": "LNG (Shipped)"
+            }
+          ],
+          "required": true
+        },
+        {
+          "key": "flexibility",
+          "label": "Flexibility of Supply",
+          "type": "select",
+          "options": [
+            {
+              "value": "low",
+              "label": "Low"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "high",
+              "label": "High"
+            }
+          ],
+          "required": false
+        },
+        {
+          "key": "emissions",
+          "label": "Emission Credits/Penalties",
+          "type": "select",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "credits",
+              "label": "Credits Available"
+            },
+            {
+              "value": "penalties",
+              "label": "Penalties Apply"
+            }
+          ],
+          "required": false
+        },
+        {
+          "key": "contractLength",
+          "label": "Contract Length",
+          "type": "select",
+          "options": [
+            {
+              "value": "1y",
+              "label": "1 year"
+            },
+            {
+              "value": "3y",
+              "label": "3 years"
+            },
+            {
+              "value": "5y",
+              "label": "5 years"
+            }
+          ],
+          "required": false
+        }
+      ]
+    },
+    "wind": {
+      "label": "Wind",
+      "fields": [
+        {
+          "key": "capacity",
+          "label": "Capacity",
+          "type": "number",
+          "unit": "MW",
+          "required": true
+        },
+        {
+          "key": "location",
+          "label": "Location",
+          "type": "text",
+          "placeholder": "e.g., Bilbao, ES",
+          "required": true
+        },
+        {
+          "key": "windSpeedPrediction",
+          "label": "Wind Speed Predictions",
+          "type": "number",
+          "unit": "m/s",
+          "required": false,
+          "placeholder": "Average wind speed"
+        },
+        {
+          "key": "turbineEfficiency",
+          "label": "Turbine Efficiency",
+          "type": "number",
+          "unit": "%",
+          "required": false,
+          "placeholder": "e.g., 45"
+        },
+        {
+          "key": "availabilityWindow",
+          "label": "Time of Availability",
+          "type": "select",
+          "options": [
+            {
+              "value": "continuous",
+              "label": "Continuous"
+            },
+            {
+              "value": "seasonal",
+              "label": "Seasonal"
+            },
+            {
+              "value": "intermittent",
+              "label": "Intermittent"
+            }
+          ],
+          "required": false
+        },
+        {
+          "key": "certifications",
+          "label": "Certifications",
+          "type": "checkbox-group",
+          "options": [
+            {
+              "value": "rec",
+              "label": "REC"
+            },
+            {
+              "value": "go",
+              "label": "Guarantee of Origin"
+            }
+          ],
+          "required": false
+        }
+      ]
+    },
+    "hydro": {
+      "label": "Hydro",
+      "fields": [
+        {
+          "key": "capacity",
+          "label": "Capacity",
+          "type": "number",
+          "unit": "MW",
+          "required": true
+        },
+        {
+          "key": "waterFlowRate",
+          "label": "Water Flow Rate",
+          "type": "number",
+          "unit": "m³/s",
+          "required": true,
+          "placeholder": "e.g., 150"
+        },
+        {
+          "key": "reservoirLevel",
+          "label": "Current Reservoir Level",
+          "type": "number",
+          "unit": "%",
+          "required": false,
+          "placeholder": "e.g., 75"
+        },
+        {
+          "key": "historicalReservoirLevel",
+          "label": "Historical Average Reservoir Level",
+          "type": "number",
+          "unit": "%",
+          "required": false,
+          "placeholder": "e.g., 80"
+        },
+        {
+          "key": "regulatoryCompliance",
+          "label": "Regulatory Compliance",
+          "type": "select",
+          "options": [
+            {
+              "value": "full",
+              "label": "Fully Compliant"
+            },
+            {
+              "value": "pending",
+              "label": "Pending Review"
+            },
+            {
+              "value": "conditional",
+              "label": "Conditional Approval"
+            }
+          ],
+          "required": false
+        },
+        {
+          "key": "flexibility",
+          "label": "Flexibility of Supply",
+          "type": "select",
+          "options": [
+            {
+              "value": "baseload",
+              "label": "Baseload"
+            },
+            {
+              "value": "peaking",
+              "label": "Peaking"
+            },
+            {
+              "value": "flexible",
+              "label": "Flexible"
+            }
+          ],
+          "required": false
+        },
+        {
+          "key": "energyStorage",
+          "label": "Energy Storage Capacity",
+          "type": "number",
+          "unit": "MWh",
+          "required": false,
+          "placeholder": "e.g., 500"
+        }
+      ]
+    },
+    "kinetic": {
+      "label": "Kinetic",
+      "fields": [
+        {
+          "key": "capacity",
+          "label": "Capacity",
+          "type": "number",
+          "unit": "kW",
+          "required": true
+        },
+        {
+          "key": "location",
+          "label": "Location",
+          "type": "text",
+          "placeholder": "e.g., Madrid Metro Station",
+          "required": true
+        },
+        {
+          "key": "conversionEfficiency",
+          "label": "Energy Conversion Efficiency",
+          "type": "number",
+          "unit": "%",
+          "required": false,
+          "placeholder": "e.g., 65"
+        },
+        {
+          "key": "predictability",
+          "label": "Predictability of Source",
+          "type": "select",
+          "options": [
+            {
+              "value": "high",
+              "label": "High (Consistent traffic)"
+            },
+            {
+              "value": "medium",
+              "label": "Medium (Variable traffic)"
+            },
+            {
+              "value": "low",
+              "label": "Low (Unpredictable)"
+            }
+          ],
+          "required": false
+        },
+        {
+          "key": "sourceType",
+          "label": "Kinetic Source Type",
+          "type": "select",
+          "options": [
+            {
+              "value": "pedestrian",
+              "label": "Pedestrian Movement"
+            },
+            {
+              "value": "vehicle",
+              "label": "Vehicle Movement"
+            },
+            {
+              "value": "turbine",
+              "label": "Small-Scale Turbines"
+            }
+          ],
+          "required": false
+        }
+      ]
+    },
+    "thermal": {
+      "label": "Thermal",
+      "fields": [
+        {
+          "key": "capacity",
+          "label": "Capacity",
+          "type": "number",
+          "unit": "MW",
+          "required": true
+        },
+        {
+          "key": "location",
+          "label": "Location",
+          "type": "text",
+          "placeholder": "e.g., Geothermal site near Granada, ES",
+          "required": true
+        },
+        {
+          "key": "heatSourceStability",
+          "label": "Heat Source Stability",
+          "type": "select",
+          "options": [
+            {
+              "value": "stable",
+              "label": "Stable"
+            },
+            {
+              "value": "moderate",
+              "label": "Moderate"
+            },
+            {
+              "value": "variable",
+              "label": "Variable"
+            }
+          ],
+          "required": false
+        },
+        {
+          "key": "temperatureGradient",
+          "label": "Temperature Gradient",
+          "type": "number",
+          "unit": "°C/km",
+          "required": false,
+          "placeholder": "e.g., 30"
+        },
+        {
+          "key": "conversionEfficiency",
+          "label": "Conversion Efficiency",
+          "type": "number",
+          "unit": "%",
+          "required": false,
+          "placeholder": "e.g., 15"
+        },
+        {
+          "key": "heatSourceType",
+          "label": "Heat Source Type",
+          "type": "select",
+          "options": [
+            {
+              "value": "geothermal",
+              "label": "Geothermal"
+            },
+            {
+              "value": "industrial",
+              "label": "Industrial Waste Heat"
+            },
+            {
+              "value": "other",
+              "label": "Other"
+            }
+          ],
+          "required": false
+        },
+        {
+          "key": "environmentalCompliance",
+          "label": "Environmental Impact and Regulation",
+          "type": "select",
+          "options": [
+            {
+              "value": "full",
+              "label": "Fully Compliant"
+            },
+            {
+              "value": "pending",
+              "label": "Pending Assessment"
+            },
+            {
+              "value": "conditional",
+              "label": "Conditional Approval"
+            }
+          ],
+          "required": false
+        }
+      ]
+    }
+  },
+  "uiHints": {
+    "order": ["price", "minQuantity", "contractTerms", "paymentTerms", "capacity"],
+    "displayUnits": true
+  }
+}
