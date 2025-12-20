@@ -1,17 +1,15 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useOffersStore } from "@/store/offersStore";
-import type { Offer } from "@/shared/models/offer";
+import { useParams, useNavigate } from 'react-router-dom';
+import { useOffersStore } from '@/store/offersStore';
+import type { Offer } from '@/shared/models/offer';
 
 export default function OfferEdit() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const offer = useOffersStore((state): Offer | undefined =>
-    state.getOfferById(id ?? "")
-  );
+  const offer = useOffersStore((state): Offer | undefined => state.getOfferById(id ?? ''));
 
   const handleBack = () => {
-    void navigate("/offers");
+    void navigate('/offers');
   };
 
   return (

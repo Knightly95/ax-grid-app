@@ -6,29 +6,31 @@ export default function Home() {
   return (
     <div>
       <h1>Energy Grid Dashboard</h1>
-      
+
       <div className="status-card">
         <h2>Connection Status</h2>
-        <p>Status: <strong>{connectionStatus}</strong></p>
-        
+        <p>
+          Status: <strong>{connectionStatus}</strong>
+        </p>
+
         {metrics && (
           <>
             <p>Total Offers: {metrics.totalOffers}</p>
             <p>Average Price: €{metrics.avgPrice.toFixed(2)}/MWh</p>
           </>
         )}
-        
+
         <p>Live Offers Count: {offers.length}</p>
       </div>
 
       <div className="quick-stats">
         <h2>Quick Stats</h2>
-        <p>Solar Offers: {offers.filter(o => o.sourceType === 'solar').length}</p>
-        <p>Gas Offers: {offers.filter(o => o.sourceType === 'gas').length}</p>
-        <p>Hydro Offers: {offers.filter(o => o.sourceType === 'hydro').length}</p>
-        <p>Wind Offers: {offers.filter(o => o.sourceType === 'wind').length}</p>
-        <p>Active Offers: {offers.filter(o => o.status === 'active').length}</p>
-        <p>Pending Offers: {offers.filter(o => o.status === 'pending').length}</p>
+        <p>Solar Offers: {offers.filter((o) => o.sourceType === 'solar').length}</p>
+        <p>Gas Offers: {offers.filter((o) => o.sourceType === 'gas').length}</p>
+        <p>Hydro Offers: {offers.filter((o) => o.sourceType === 'hydro').length}</p>
+        <p>Wind Offers: {offers.filter((o) => o.sourceType === 'wind').length}</p>
+        <p>Active Offers: {offers.filter((o) => o.status === 'active').length}</p>
+        <p>Pending Offers: {offers.filter((o) => o.status === 'pending').length}</p>
       </div>
     </div>
   );

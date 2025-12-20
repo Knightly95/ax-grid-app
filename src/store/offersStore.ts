@@ -35,9 +35,7 @@ export const useOffersStore = create<OffersState>((set, get) => ({
 
   updateOffer: (updatedOffer) =>
     set((state) => ({
-      offers: state.offers.map((offer) =>
-        offer.id === updatedOffer.id ? updatedOffer : offer
-      ),
+      offers: state.offers.map((offer) => (offer.id === updatedOffer.id ? updatedOffer : offer)),
     })),
 
   removeOffer: (offerId) =>

@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import type { SxProps, Theme } from "@mui/material/styles";
+import { useState } from 'react';
+import { DataGrid, type GridColDef } from '@mui/x-data-grid';
+import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import type { SxProps, Theme } from '@mui/material/styles';
 
 export interface RowAction<T> {
   label: string;
@@ -53,27 +53,23 @@ export default function DataTable<T extends { id: string | number }>({
   };
 
   const actionsColumn: GridColDef = {
-    field: "actions",
-    headerName: "Actions",
+    field: 'actions',
+    headerName: 'Actions',
     width: 80,
     sortable: false,
     filterable: false,
     renderCell: (params) => (
-      <IconButton
-        onClick={(e) => handleMenuClick(e, params.row as T)}
-        size="small"
-      >
+      <IconButton onClick={(e) => handleMenuClick(e, params.row as T)} size="small">
         <MoreVertIcon />
       </IconButton>
     ),
   };
 
-  const allColumns =
-    actions && actions.length > 0 ? [actionsColumn, ...columns] : columns;
+  const allColumns = actions && actions.length > 0 ? [actionsColumn, ...columns] : columns;
 
   return (
     <>
-      <Paper sx={{ width: "100%", ...sx }}>
+      <Paper sx={{ width: '100%', ...sx }}>
         <DataGrid
           rows={rows}
           columns={allColumns}
@@ -89,18 +85,13 @@ export default function DataTable<T extends { id: string | number }>({
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
           anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
+            vertical: 'bottom',
+            horizontal: 'left',
           }}
         >
           {actions.map((action) => (
-            <MenuItem
-              key={action.id || action.label}
-              onClick={() => handleActionClick(action)}
-            >
-              {action.icon && (
-                <span style={{ marginRight: 8 }}>{action.icon}</span>
-              )}
+            <MenuItem key={action.id || action.label} onClick={() => handleActionClick(action)}>
+              {action.icon && <span style={{ marginRight: 8 }}>{action.icon}</span>}
               {action.label}
             </MenuItem>
           ))}

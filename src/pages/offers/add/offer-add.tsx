@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export default function OfferAdd() {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    void navigate("/offers");
+    void navigate('/offers');
   };
 
   return (
