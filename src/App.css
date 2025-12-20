@@ -17,7 +17,7 @@
 
 .status-card,
 .quick-stats,
-.deal-list {
+.offer-list {
   background-color: #161616;
   padding: 1.5rem;
   border-radius: 8px;
@@ -27,7 +27,7 @@
 
 .status-card h2,
 .quick-stats h2,
-.deal-list h1 {
+.offer-list h1 {
   margin-top: 0;
 }
 
@@ -36,6 +36,6 @@
   color: #2f37c4;
 }
 
-.deals-grid {
+.offers-grid {
   margin-top: 1rem;
 }

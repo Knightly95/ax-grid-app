@@ -27,8 +27,8 @@ export default function Home() {
         <p>Gas Offers: {offers.filter(o => o.sourceType === 'gas').length}</p>
         <p>Hydro Offers: {offers.filter(o => o.sourceType === 'hydro').length}</p>
         <p>Wind Offers: {offers.filter(o => o.sourceType === 'wind').length}</p>
-        <p>Active Deals: {offers.filter(o => o.status === 'active').length}</p>
-        <p>Pending Deals: {offers.filter(o => o.status === 'pending').length}</p>
+        <p>Active Offers: {offers.filter(o => o.status === 'active').length}</p>
+        <p>Pending Offers: {offers.filter(o => o.status === 'pending').length}</p>
       </div>
     </div>
   );

@@ -19,9 +19,10 @@ interface OffersState {
   setConnectionStatus: (status: ConnectionStatus) => void;
   setMetrics: (metrics: OpsMetrics) => void;
   clearOffers: () => void;
+  getOfferById: (id: string) => Offer | undefined;
 }
 
-export const useOffersStore = create<OffersState>((set) => ({
+export const useOffersStore = create<OffersState>((set, get) => ({
   offers: [],
   connectionStatus: 'disconnected',
   metrics: null,
@@ -49,4 +50,6 @@ export const useOffersStore = create<OffersState>((set) => ({
   setMetrics: (metrics) => set({ metrics }),
 
   clearOffers: () => set({ offers: [], metrics: null }),
+
+  getOfferById: (id: string) => get().offers.find((offer) => offer.id === id),
 }));
