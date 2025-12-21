@@ -1,3 +1,5 @@
+import { capitalizeFirstLetter } from '@/shared/utils/string';
+
 export const SourceTypeEnum = {
   SOLAR: 'solar',
   GAS: 'gas',
@@ -8,6 +10,18 @@ export const SourceTypeEnum = {
 } as const;
 
 export type SourceType = (typeof SourceTypeEnum)[keyof typeof SourceTypeEnum];
+
+export interface SourceTypeOption {
+  value: SourceType;
+  label: string;
+}
+
+export const SOURCE_TYPE_OPTIONS: SourceTypeOption[] = Object.values(SourceTypeEnum).map(
+  (value) => ({
+    value,
+    label: capitalizeFirstLetter(value),
+  }),
+);
 
 export type Unit = 'MWh' | 'kW' | 'MW';
 
@@ -67,7 +81,7 @@ export interface KineticFields {
   location: string;
   conversionEfficiency?: number;
   predictability?: string;
-  kineticSourceType?: string; // kinetic source type (pedestrian, vehicle, turbine)
+  kineticSourceType?: string;
 }
 
 export interface ThermalFields {

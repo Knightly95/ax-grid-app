@@ -1,17 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { FieldValues } from 'react-hook-form';
-import {
-  Container,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-  Box,
-  TextField,
-} from '@mui/material';
+import { Container, Typography, Box } from '@mui/material';
 
 import type { SourceType } from '@/shared/types/offering';
 import type { Offering } from '@/shared/types/offering';
@@ -20,15 +10,9 @@ import { DynamicForm } from '@/shared/components/dynamic-form';
 import { Loading } from '@/shared/components/loading';
 import { useEnergyOfferings } from '@/shared/services/energy-offerings';
 import { getEnergyFormFields } from '@/shared/utils/energy-form';
-
-const SOURCE_TYPES: { value: SourceType; label: string }[] = [
-  { value: 'solar', label: 'Solar' },
-  { value: 'gas', label: 'Gas' },
-  { value: 'wind', label: 'Wind' },
-  { value: 'hydro', label: 'Hydro' },
-  { value: 'kinetic', label: 'Kinetic' },
-  { value: 'thermal', label: 'Thermal' },
-];
+import { PageHeader, PageActions } from '@/shared/components/page-navigation';
+import { ErrorMessage } from '@/shared/components/error-message';
+import { SourceTypeSelect, VendorField } from './components/offering-form-fields';
 
 export default function OfferingAdd() {
   const navigate = useNavigate();
@@ -69,48 +53,17 @@ export default function OfferingAdd() {
   return (
     <Container maxWidth="md">
       <Box sx={{ py: 4 }}>
-        <Button variant="text" size="small" onClick={handleBack} sx={{ mb: 2 }}>
-          ← Back to Offerings
-        </Button>
+        <PageHeader buttons={[{ label: '← Back to Offerings', onClick: handleBack }]} />
+
         <Typography variant="h4" component="h1" gutterBottom>
           Create New Offering
         </Typography>
 
-        {error && (
-          <Typography color="error" sx={{ mb: 2 }}>
-            Failed to load form configuration. Please try again.
-          </Typography>
-        )}
+        {error && <ErrorMessage message="Failed to load form configuration. Please try again." />}
 
-        <TextField
-          fullWidth
-          required
-          label="Vendor Name"
-          value={vendor}
-          onChange={(e) => setVendor(e.target.value)}
-          placeholder="e.g., SolarCorp Inc."
-          sx={{ mb: 3 }}
-        />
+        <VendorField value={vendor} onChange={setVendor} />
 
-        <FormControl fullWidth required sx={{ mb: 4 }}>
-          <InputLabel id="sourceType-label">Energy Source Type</InputLabel>
-          <Select
-            labelId="sourceType-label"
-            id="sourceType"
-            value={selectedSource}
-            label="Energy Source Type"
-            onChange={(e) => setSelectedSource(e.target.value as SourceType)}
-          >
-            <MenuItem value="">
-              <em>Select energy source...</em>
-            </MenuItem>
-            {SOURCE_TYPES.map((source) => (
-              <MenuItem key={source.value} value={source.value}>
-                {source.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <SourceTypeSelect value={selectedSource} onChange={setSelectedSource} />
 
         {selectedSource && (
           <Box>
@@ -121,9 +74,7 @@ export default function OfferingAdd() {
           </Box>
         )}
 
-        <Button variant="outlined" onClick={handleBack} sx={{ mt: 2 }}>
-          Cancel
-        </Button>
+        <PageActions buttons={[{ label: 'Cancel', onClick: handleBack }]} />
       </Box>
     </Container>
   );

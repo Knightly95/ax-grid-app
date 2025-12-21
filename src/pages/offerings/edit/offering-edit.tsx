@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import type { FieldValues } from 'react-hook-form';
-import { Container, Typography, Button, Box, Chip } from '@mui/material';
+import { Container, Typography, Box, Chip } from '@mui/material';
 
 import { useOfferingsStore } from '@/store/offeringsStore';
 import type { Offering } from '@/shared/types/offering';
@@ -8,6 +8,9 @@ import { DynamicForm } from '@/shared/components/dynamic-form';
 import { Loading } from '@/shared/components/loading';
 import { useEnergyOfferings } from '@/shared/services/energy-offerings';
 import { getEnergyFormFields } from '@/shared/utils/energy-form';
+import { PageHeader, PageActions } from '@/shared/components/page-navigation';
+import { convertOfferingToFormValues } from '../utils/form-converters';
+import { ErrorMessage } from '@/shared/components/error-message';
 
 export default function OfferingEdit() {
   const { id } = useParams<{ id: string }>();
@@ -32,9 +35,22 @@ export default function OfferingEdit() {
     return <Loading />;
   }
 
-  const handleSubmit = (values: FieldValues) => {
-    if (!offering) return;
+  if (!offering) {
+    return (
+      <Container maxWidth="md">
+        <Box sx={{ py: 4 }}>
+          <PageHeader buttons={[{ label: '← Back to Offerings', onClick: handleBack }]} />
+          <Typography variant="h4" component="h1" gutterBottom>
+            Offering Not Found
+          </Typography>
+          <ErrorMessage message="Offering not found" />
+          <PageActions buttons={[{ label: 'Back to Offerings', onClick: handleBack }]} />
+        </Box>
+      </Container>
+    );
+  }
 
+  const handleSubmit = (values: FieldValues) => {
     const updatedOffering: Offering = {
       ...offering,
       ...values,
@@ -45,56 +61,13 @@ export default function OfferingEdit() {
     void navigate('/offerings');
   };
 
-  if (!offering) {
-    return (
-      <Container maxWidth="md">
-        <Box sx={{ py: 4 }}>
-          <Typography variant="h4" component="h1">
-            Offering Not Found
-          </Typography>
-          <Typography color="error">Offering not found</Typography>
-          <Button variant="outlined" onClick={handleBack} sx={{ mt: 2 }}>
-            Back to Offerings
-          </Button>
-        </Box>
-      </Container>
-    );
-  }
-
-  // Convert offering to form initial values
-  const initialValues: Record<string, string | string[]> = {
-    vendor: offering.vendor,
-    ...(offering.price !== undefined && { price: offering.price.toString() }),
-    ...(offering.minQuantity !== undefined && { minQuantity: offering.minQuantity.toString() }),
-    ...(offering.contractTerms && { contractTerms: offering.contractTerms }),
-    ...(offering.paymentTerms && { paymentTerms: offering.paymentTerms }),
-    // Extract source-specific fields dynamically
-    ...Object.fromEntries(
-      Object.entries(offering)
-        .filter(
-          ([key]) =>
-            ![
-              'id',
-              'sourceType',
-              'vendor',
-              'createdAt',
-              'updatedAt',
-              'price',
-              'minQuantity',
-              'contractTerms',
-              'paymentTerms',
-            ].includes(key),
-        )
-        .map(([key, value]) => [key, typeof value === 'number' ? value.toString() : value]),
-    ),
-  };
+  const initialValues = convertOfferingToFormValues(offering);
 
   return (
     <Container maxWidth="md">
       <Box sx={{ py: 4 }}>
-        <Button variant="text" size="small" onClick={handleBack} sx={{ mb: 2 }}>
-          ← Back to Offerings
-        </Button>
+        <PageHeader buttons={[{ label: '← Back to Offerings', onClick: handleBack }]} />
+
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
           <Typography variant="h4" component="h1">
             Edit Offering
@@ -115,9 +88,7 @@ export default function OfferingEdit() {
           />
         </Box>
 
-        <Button variant="outlined" onClick={handleBack} sx={{ mt: 2 }}>
-          Cancel
-        </Button>
+        <PageActions buttons={[{ label: 'Cancel', onClick: handleBack }]} />
       </Box>
     </Container>
   );
