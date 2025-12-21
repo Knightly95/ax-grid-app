@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import type { Offer } from '@/shared/types/offer';
 import type { ConnectionStatus } from '@/shared/services/socket/socketEvents';
 
-interface OpsMetrics {
+interface OfferMetrics {
   totalOffers: number;
   avgPrice: number;
 }
@@ -11,14 +11,14 @@ interface OpsMetrics {
 interface OffersState {
   offers: Offer[];
   connectionStatus: ConnectionStatus;
-  metrics: OpsMetrics | null;
+  metrics: OfferMetrics | null;
 
   setOffers: (offers: Offer[]) => void;
   addOffer: (offer: Offer) => void;
   updateOffer: (offer: Offer) => void;
   removeOffer: (offerId: string) => void;
   setConnectionStatus: (status: ConnectionStatus) => void;
-  setMetrics: (metrics: OpsMetrics) => void;
+  setMetrics: (metrics: OfferMetrics) => void;
   clearOffers: () => void;
   getOfferById: (id: string) => Offer | undefined;
 }

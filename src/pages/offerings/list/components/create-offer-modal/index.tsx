@@ -51,7 +51,9 @@ export function CreateOfferModal({ offering, open, onClose }: CreateOfferModalPr
   const handleOrderSubmit = (values: { quantity: number }): void => {
     const offerLocation = 'location' in offering ? offering.location : DEFAULT_LOCATION;
 
-    const offerForm: Omit<Offer, 'id' | 'createdAt' | 'updatedAt'> = {
+    const now = Date.now();
+    const newOffer: Offer = {
+      id: `${now}-${Math.random().toString(36).substring(2, 9)}`,
       sourceType: offering.sourceType,
       price: offering.price || 0,
       quantity: Number(values.quantity),
@@ -59,9 +61,11 @@ export function CreateOfferModal({ offering, open, onClose }: CreateOfferModalPr
       status: 'pending',
       vendor: offering.vendor,
       location: offerLocation,
+      createdAt: now,
+      updatedAt: now,
     };
 
-    addOffer(offerForm);
+    addOffer(newOffer);
     setOrderSuccess(true);
 
     setTimeout(() => {

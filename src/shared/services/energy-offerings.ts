@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 
 import type { EnergyOfferingsConfig } from '@/shared/types/form-config';
-
-const API_BASE_URL = 'http://localhost:3000';
+import { config } from '@/config';
 
 export async function fetchEnergyOfferingsConfig(): Promise<EnergyOfferingsConfig> {
-  const response = await fetch(`${API_BASE_URL}/api/energy-offerings`);
+  const response = await fetch(`${config.api.baseUrl}/api/energy-offerings`);
 
   if (!response.ok) {
     throw new Error(`Failed to fetch energy offerings config: ${response.statusText}`);

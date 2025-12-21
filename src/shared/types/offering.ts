@@ -23,8 +23,6 @@ export const SOURCE_TYPE_OPTIONS: SourceTypeOption[] = Object.values(SourceTypeE
   }),
 );
 
-export type Unit = 'MWh' | 'kW' | 'MW';
-
 // Base offering fields (common to all source types)
 export interface BaseOffering {
   id: string;

@@ -4,6 +4,7 @@ import { Container, Box } from '@mui/material';
 
 import { useOfferingsStore } from '@/store/offeringsStore';
 import type { Offering } from '@/shared/types/offering';
+import { ConfirmDialog } from '@/shared/components/confirm-dialog';
 
 import { OfferingHeader } from './components/offering-header';
 import { OfferingEmptyState } from './components/offering-empty-state';
@@ -16,6 +17,8 @@ export default function OfferingList() {
   const navigate = useNavigate();
   const [selectedOffering, setSelectedOffering] = useState<Offering | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [offeringToDelete, setOfferingToDelete] = useState<string | null>(null);
 
   const handleCreateClick = () => {
     void navigate('/offerings/add');
@@ -26,9 +29,21 @@ export default function OfferingList() {
   };
 
   const handleDelete = (id: string) => {
-    if (confirm('Are you sure you want to delete this offering?')) {
-      removeOffering(id);
+    setOfferingToDelete(id);
+    setDeleteConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (offeringToDelete) {
+      removeOffering(offeringToDelete);
     }
+    setDeleteConfirmOpen(false);
+    setOfferingToDelete(null);
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteConfirmOpen(false);
+    setOfferingToDelete(null);
   };
 
   const handleViewDetails = (offering: Offering) => {
@@ -67,6 +82,15 @@ export default function OfferingList() {
                   onEdit={handleEdit}
                   onDelete={handleDelete}
                   onViewDetails={handleViewDetails}
+                />
+                <ConfirmDialog
+                  open={deleteConfirmOpen}
+                  title="Delete Offering"
+                  message="Are you sure you want to delete this offering? This action cannot be undone."
+                  confirmText="Delete"
+                  cancelText="Cancel"
+                  onConfirm={handleConfirmDelete}
+                  onCancel={handleCancelDelete}
                 />
               </Box>
             ))}

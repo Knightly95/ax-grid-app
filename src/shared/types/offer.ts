@@ -1,15 +1,14 @@
 import type { SourceType } from './offering';
+import type { OfferUnit } from './unit';
 
 export type OfferStatus = 'pending' | 'processing' | 'active' | 'completed';
-
-export type Unit = 'MWh';
 
 export interface Offer {
   id: string;
   sourceType: SourceType;
   price: number;
   quantity: number;
-  unit: Unit;
+  unit: OfferUnit;
   status: OfferStatus;
   vendor: string;
   location: string;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { FieldValues } from 'react-hook-form';
-import { Container, Typography, Box } from '@mui/material';
+import { Container, Typography, Box, Snackbar, Alert } from '@mui/material';
 
 import type { SourceType } from '@/shared/types/offering';
 import type { Offering } from '@/shared/types/offering';
@@ -19,6 +19,7 @@ export default function OfferingAdd() {
   const addOffering = useOfferingsStore((state) => state.addOffering);
   const [selectedSource, setSelectedSource] = useState<SourceType | ''>('');
   const [vendor, setVendor] = useState('');
+  const [showValidationError, setShowValidationError] = useState(false);
 
   const { data: config, isLoading, error } = useEnergyOfferings();
   const { fields, displayUnits, sourceLabel } = getEnergyFormFields(
@@ -36,7 +37,7 @@ export default function OfferingAdd() {
 
   const handleSubmit = (values: FieldValues) => {
     if (!selectedSource || !vendor) {
-      alert('Please select a source type and enter vendor name');
+      setShowValidationError(true);
       return;
     }
 
@@ -48,6 +49,10 @@ export default function OfferingAdd() {
 
     addOffering(newOffering);
     void navigate('/offerings');
+  };
+
+  const handleCloseSnackbar = () => {
+    setShowValidationError(false);
   };
 
   return (
@@ -76,6 +81,17 @@ export default function OfferingAdd() {
 
         <PageActions buttons={[{ label: 'Cancel', onClick: handleBack }]} />
       </Box>
+
+      <Snackbar
+        open={showValidationError}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
+          Please select a source type and enter vendor name
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

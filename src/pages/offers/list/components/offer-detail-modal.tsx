@@ -13,7 +13,7 @@ interface OfferDetailModalProps {
 }
 
 export function OfferDetailModal({ open, offer, onClose, onComplete }: OfferDetailModalProps) {
-  if (!offer) return <></>;
+  if (!offer) return null;
 
   return (
     <Modal

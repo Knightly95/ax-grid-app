@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
+const HIGHLIGHT_DURATION_MS = 3000;
+
 interface UseRowChangeDetectionReturn {
   newRows: Set<string | number>;
   changedCells: Map<string | number, Set<string>>;
@@ -50,7 +52,7 @@ export function useRowChangeDetection<T extends { id: string | number }>(
       const clearTimer = setTimeout(() => {
         setNewRows(new Set());
         setChangedCells(new Map());
-      }, 3000);
+      }, HIGHLIGHT_DURATION_MS);
 
       return () => {
         clearTimeout(flashTimer);

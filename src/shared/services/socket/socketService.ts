@@ -1,6 +1,7 @@
 import { io, Socket } from 'socket.io-client';
 
 import type { Offer } from '@/shared/types/offer';
+import { config } from '@/config';
 
 import type {
   OfferRemovedPayload,
@@ -9,8 +10,6 @@ import type {
   ConnectionStatus,
 } from './socketEvents';
 import { SOCKET_EVENTS } from './socketEvents';
-
-const SOCKET_URL = 'http://localhost:4001';
 
 type EventCallback<T> = (data: T) => void;
 
@@ -25,7 +24,7 @@ class SocketService {
     }
 
     this.connectionStatus = 'connecting';
-    this.socket = io(SOCKET_URL, {
+    this.socket = io(config.socket.url, {
       reconnection: true,
       reconnectionDelay: 1000,
       reconnectionAttempts: 5,
