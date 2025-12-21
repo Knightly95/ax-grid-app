@@ -13,7 +13,7 @@ interface OffersState {
   metrics: OpsMetrics | null;
 
   setOffers: (offers: Offer[]) => void;
-  addOffer: (offer: Offer) => void;
+  addOffer: (offer: Omit<Offer, 'id' | 'createdAt' | 'updatedAt'>) => void;
   updateOffer: (offer: Offer) => void;
   removeOffer: (offerId: string) => void;
   setConnectionStatus: (status: ConnectionStatus) => void;
@@ -28,10 +28,21 @@ export const useOffersStore = create<OffersState>((set, get) => ({
   metrics: null,
   setOffers: (offers) => set({ offers }),
 
-  addOffer: (offer) =>
-    set((state) => ({
-      offers: [...state.offers, offer],
-    })),
+  // the crud operations should ideally be done via backend rest api calls
+  addOffer: (formOffer: Omit<Offer, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const now = Date.now();
+    const fullOffer: Offer = {
+      ...formOffer,
+      id: `temp-${now}`,
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    return set((state) => ({
+      offers: [...state.offers, fullOffer],
+    }));
+  },
+
 
   updateOffer: (updatedOffer) =>
     set((state) => ({

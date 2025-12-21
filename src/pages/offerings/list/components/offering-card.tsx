@@ -17,16 +17,23 @@ import {
   MoreVert as MoreVertIcon,
   ShoppingCart as ShoppingCartIcon,
 } from '@mui/icons-material';
+
 import type { Offering } from '@/shared/types/offering';
-import { sourceIcons, sourceColors } from './offering-constants';
+import { formatPrice } from '@/shared/utils/format';
+import { capitalizeFirstLetter } from '@/shared/utils/string';
+
+import { getCapacity, getLocation } from '../utils/offering-details';
+import { OFFERING_CREATE_OFFER_BUTTON_TEXT } from '../constants/text';
+import { sourceIcons, sourceColors } from '../constants/source-display.tsx';
 
 interface OfferingCardProps {
   offering: Offering;
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
+  onViewDetails: (offering: Offering) => void;
 }
 
-export function OfferingCard({ offering, onEdit, onDelete }: OfferingCardProps) {
+export function OfferingCard({ offering, onEdit, onDelete, onViewDetails }: OfferingCardProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -49,27 +56,7 @@ export function OfferingCard({ offering, onEdit, onDelete }: OfferingCardProps) 
   };
 
   const handleCreateOffer = () => {
-    alert(`Buy offering: ${offering.vendor} - ${offering.sourceType}`);
-    // TODO: Implement buy functionality
-  };
-
-  const formatPrice = (price?: number) => {
-    return price ? `€${Number(price).toFixed(2)}/MWh` : 'N/A';
-  };
-
-  const getCapacity = (offering: Offering): string => {
-    if ('capacity' in offering && offering.capacity) {
-      const unit = offering.sourceType === 'kinetic' ? 'kW' : 'MW';
-      return `${offering.capacity} ${unit}`;
-    }
-    return 'N/A';
-  };
-
-  const getLocation = (offering: Offering): string => {
-    if ('location' in offering && offering.location) {
-      return offering.location;
-    }
-    return 'Not specified';
+    onViewDetails(offering);
   };
 
   return (
@@ -101,7 +88,7 @@ export function OfferingCard({ offering, onEdit, onDelete }: OfferingCardProps) 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           {sourceIcons[offering.sourceType]}
           <Typography variant="h6" fontWeight={600}>
-            {offering.sourceType.charAt(0).toUpperCase() + offering.sourceType.slice(1)}
+            {capitalizeFirstLetter(offering.sourceType)}
           </Typography>
         </Box>
         <IconButton size="small" onClick={handleMenuClick} sx={{ color: 'white' }}>
@@ -166,7 +153,7 @@ export function OfferingCard({ offering, onEdit, onDelete }: OfferingCardProps) 
           onClick={handleCreateOffer}
           sx={{ mt: 2 }}
         >
-          Create Offer
+          {OFFERING_CREATE_OFFER_BUTTON_TEXT}
         </Button>
       </CardContent>
     </Card>

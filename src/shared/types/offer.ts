@@ -1,4 +1,4 @@
-export type SourceType = 'solar' | 'gas' | 'wind' | 'hydro';
+import type { SourceType } from './offering';
 
 export type OfferStatus = 'pending' | 'processing' | 'active' | 'completed';
 

@@ -1,4 +1,13 @@
-export type SourceType = 'solar' | 'gas' | 'wind' | 'hydro' | 'kinetic' | 'thermal';
+export const SourceTypeEnum = {
+  SOLAR: 'solar',
+  GAS: 'gas',
+  WIND: 'wind',
+  HYDRO: 'hydro',
+  KINETIC: 'kinetic',
+  THERMAL: 'thermal',
+} as const;
+
+export type SourceType = (typeof SourceTypeEnum)[keyof typeof SourceTypeEnum];
 
 export type Unit = 'MWh' | 'kW' | 'MW';
 
@@ -73,46 +82,46 @@ export interface ThermalFields {
 
 // Discriminated union for type-safe offerings
 export type Offering =
-  | (BaseOffering & { sourceType: 'solar' } & SolarFields)
-  | (BaseOffering & { sourceType: 'gas' } & GasFields)
-  | (BaseOffering & { sourceType: 'wind' } & WindFields)
-  | (BaseOffering & { sourceType: 'hydro' } & HydroFields)
-  | (BaseOffering & { sourceType: 'kinetic' } & KineticFields)
-  | (BaseOffering & { sourceType: 'thermal' } & ThermalFields);
+  | (BaseOffering & { sourceType: typeof SourceTypeEnum.SOLAR } & SolarFields)
+  | (BaseOffering & { sourceType: typeof SourceTypeEnum.GAS } & GasFields)
+  | (BaseOffering & { sourceType: typeof SourceTypeEnum.WIND } & WindFields)
+  | (BaseOffering & { sourceType: typeof SourceTypeEnum.HYDRO } & HydroFields)
+  | (BaseOffering & { sourceType: typeof SourceTypeEnum.KINETIC } & KineticFields)
+  | (BaseOffering & { sourceType: typeof SourceTypeEnum.THERMAL } & ThermalFields);
 
 // Type guards for validation
 export function isSolarOffering(
   offering: Offering,
-): offering is BaseOffering & { sourceType: 'solar' } & SolarFields {
-  return offering.sourceType === 'solar';
+): offering is BaseOffering & { sourceType: typeof SourceTypeEnum.SOLAR } & SolarFields {
+  return offering.sourceType === SourceTypeEnum.SOLAR;
 }
 
 export function isGasOffering(
   offering: Offering,
-): offering is BaseOffering & { sourceType: 'gas' } & GasFields {
-  return offering.sourceType === 'gas';
+): offering is BaseOffering & { sourceType: typeof SourceTypeEnum.GAS } & GasFields {
+  return offering.sourceType === SourceTypeEnum.GAS;
 }
 
 export function isWindOffering(
   offering: Offering,
-): offering is BaseOffering & { sourceType: 'wind' } & WindFields {
-  return offering.sourceType === 'wind';
+): offering is BaseOffering & { sourceType: typeof SourceTypeEnum.WIND } & WindFields {
+  return offering.sourceType === SourceTypeEnum.WIND;
 }
 
 export function isHydroOffering(
   offering: Offering,
-): offering is BaseOffering & { sourceType: 'hydro' } & HydroFields {
-  return offering.sourceType === 'hydro';
+): offering is BaseOffering & { sourceType: typeof SourceTypeEnum.HYDRO } & HydroFields {
+  return offering.sourceType === SourceTypeEnum.HYDRO;
 }
 
 export function isKineticOffering(
   offering: Offering,
-): offering is BaseOffering & { sourceType: 'kinetic' } & KineticFields {
-  return offering.sourceType === 'kinetic';
+): offering is BaseOffering & { sourceType: typeof SourceTypeEnum.KINETIC } & KineticFields {
+  return offering.sourceType === SourceTypeEnum.KINETIC;
 }
 
 export function isThermalOffering(
   offering: Offering,
-): offering is BaseOffering & { sourceType: 'thermal' } & ThermalFields {
-  return offering.sourceType === 'thermal';
+): offering is BaseOffering & { sourceType: typeof SourceTypeEnum.THERMAL } & ThermalFields {
+  return offering.sourceType === SourceTypeEnum.THERMAL;
 }

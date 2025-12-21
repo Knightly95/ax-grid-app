@@ -23,7 +23,7 @@ export const useOfferingsStore = create<OfferingsState>()(
       addOffering: (offering) => {
         //simple unique ID generation for assesment purposes
         const now = Date.now();
-        const id = `offering-${now}-${Math.random().toString(36).substring(2, 9)}`;
+        const id = `${now}-${Math.random().toString(36).substring(2, 9)}`;
         const newOffering: Offering = {
           ...offering,
           id,

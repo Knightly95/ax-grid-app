@@ -1,14 +1,19 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Box } from '@mui/material';
 import { useOfferingsStore } from '@/store/offeringsStore';
-import { OfferingHeader } from './components/OfferingHeader';
-import { OfferingEmptyState } from './components/OfferingEmptyState';
-import { OfferingCard } from './components/OfferingCard';
+import type { Offering } from '@/shared/types/offering';
+import { OfferingHeader } from './components/offering-header';
+import { OfferingEmptyState } from './components/offering-empty-state';
+import { OfferingCard } from './components/offering-card';
+import { CreateOfferModal } from './components/create-offer-modal';
 
 export default function OfferingList() {
   const offerings = useOfferingsStore((state) => state.offerings);
   const removeOffering = useOfferingsStore((state) => state.removeOffering);
   const navigate = useNavigate();
+  const [selectedOffering, setSelectedOffering] = useState<Offering | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCreateClick = () => {
     void navigate('/offerings/add');
@@ -22,6 +27,16 @@ export default function OfferingList() {
     if (confirm('Are you sure you want to delete this offering?')) {
       removeOffering(id);
     }
+  };
+
+  const handleViewDetails = (offering: Offering) => {
+    setSelectedOffering(offering);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedOffering(null);
   };
 
   return (
@@ -45,11 +60,18 @@ export default function OfferingList() {
                   },
                 }}
               >
-                <OfferingCard offering={offering} onEdit={handleEdit} onDelete={handleDelete} />
+                <OfferingCard
+                  offering={offering}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                  onViewDetails={handleViewDetails}
+                />
               </Box>
             ))}
           </Box>
         )}
+
+        <CreateOfferModal offering={selectedOffering} open={isModalOpen} onClose={handleCloseModal} />
       </Box>
     </Container>
   );
