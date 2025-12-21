@@ -12,6 +12,7 @@ import {
   Box,
   TextField,
 } from '@mui/material';
+
 import type { SourceType } from '@/shared/types/offering';
 import type { Offering } from '@/shared/types/offering';
 import { useOfferingsStore } from '@/store/offeringsStore';

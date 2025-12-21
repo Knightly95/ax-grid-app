@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Box } from '@mui/material';
+
 import { useOfferingsStore } from '@/store/offeringsStore';
 import type { Offering } from '@/shared/types/offering';
+
 import { OfferingHeader } from './components/offering-header';
 import { OfferingEmptyState } from './components/offering-empty-state';
 import { OfferingCard } from './components/offering-card';
@@ -71,7 +73,11 @@ export default function OfferingList() {
           </Box>
         )}
 
-        <CreateOfferModal offering={selectedOffering} open={isModalOpen} onClose={handleCloseModal} />
+        <CreateOfferModal
+          offering={selectedOffering}
+          open={isModalOpen}
+          onClose={handleCloseModal}
+        />
       </Box>
     </Container>
   );

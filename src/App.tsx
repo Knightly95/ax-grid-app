@@ -1,12 +1,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+
+import { PageNavbar } from '@/shared/components/page-navbar';
+
 import Home from './pages/home/home';
 import OfferList from './pages/offers/list/offer-list';
 import OfferingList from './pages/offerings/list/offering-list';
 import OfferingAdd from './pages/offerings/add/offering-add';
 import OfferingEdit from './pages/offerings/edit/offering-edit';
-import PageNavbar from '@/shared/components/page-navbar';
 import './App.css';
 
 const theme = createTheme({

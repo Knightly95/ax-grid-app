@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import type { FieldValues } from 'react-hook-form';
 import { Container, Typography, Button, Box, Chip } from '@mui/material';
+
 import { useOfferingsStore } from '@/store/offeringsStore';
 import type { Offering } from '@/shared/types/offering';
 import { DynamicForm } from '@/shared/components/dynamic-form';

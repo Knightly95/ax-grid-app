@@ -1,5 +1,7 @@
 import { io, Socket } from 'socket.io-client';
+
 import type { Offer } from '@/shared/types/offer';
+
 import type {
   OfferRemovedPayload,
   OpsMetricPayload,

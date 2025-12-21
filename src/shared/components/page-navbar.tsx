@@ -13,7 +13,7 @@ const pages = [
   { label: 'Offers', path: '/offers' },
 ];
 
-function PageNavbar() {
+export function PageNavbar() {
   return (
     <AppBar position="static">
       <Container maxWidth="xl">

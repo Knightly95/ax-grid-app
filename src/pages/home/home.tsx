@@ -1,4 +1,5 @@
 import { Container, Typography, Box, Paper } from '@mui/material';
+
 import { useOffersStore } from '@/store/offersStore';
 
 export default function Home() {

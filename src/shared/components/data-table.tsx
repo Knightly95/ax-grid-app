@@ -23,7 +23,7 @@ interface DataTableProps<T extends { id: string | number }> {
   sx?: SxProps<Theme>;
 }
 
-export default function DataTable<T extends { id: string | number }>({
+export function DataTable<T extends { id: string | number }>({
   rows,
   columns,
   actions,

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
 import type { Offering } from '@/shared/types/offering';
 
 interface OfferingsState {

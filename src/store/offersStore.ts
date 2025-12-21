@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+
 import type { Offer } from '@/shared/types/offer';
 import type { ConnectionStatus } from '@/services/socket/socketEvents';
 
@@ -42,7 +43,6 @@ export const useOffersStore = create<OffersState>((set, get) => ({
       offers: [...state.offers, fullOffer],
     }));
   },
-
 
   updateOffer: (updatedOffer) =>
     set((state) => ({

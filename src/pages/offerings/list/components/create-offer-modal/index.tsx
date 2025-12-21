@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
-import { Box, Divider, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { Box, Divider, Alert } from '@mui/material';
 
 import type { Offering } from '@/shared/types/offering';
 import type { Offer } from '@/shared/types/offer';

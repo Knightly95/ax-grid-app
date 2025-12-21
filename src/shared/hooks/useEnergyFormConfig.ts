@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+
 import energyOfferingsConfig from '@/shared/config/energy-offerings.json';
 import type { EnergyOfferingsConfig, FormField } from '@/shared/types/form-config';
 

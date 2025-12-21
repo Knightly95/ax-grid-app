@@ -1,10 +1,11 @@
 import type { GridColDef } from '@mui/x-data-grid';
 // import { useNavigate } from 'react-router-dom';
 import { Container, Typography, Box } from '@mui/material';
+
 import { useOffersStore } from '@/store/offersStore';
 import { useSocket } from '@/shared/hooks/useSocket';
 import type { Offer } from '@/shared/types/offer';
-import DataTable, { type RowAction } from '@/shared/components/data-table';
+import { DataTable, type RowAction } from '@/shared/components/data-table';
 import { socketService } from '@/services/socket/socketService';
 
 export default function OfferList() {

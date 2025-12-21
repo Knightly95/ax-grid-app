@@ -24,7 +24,7 @@ import { capitalizeFirstLetter } from '@/shared/utils/string';
 
 import { getCapacity, getLocation } from '../utils/offering-details';
 import { OFFERING_CREATE_OFFER_BUTTON_TEXT } from '../constants/text';
-import { sourceIcons, sourceColors } from '../constants/source-display.tsx';
+import { sourceIcons, sourceColors } from '../constants/source-display';
 
 interface OfferingCardProps {
   offering: Offering;
