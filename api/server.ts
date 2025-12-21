@@ -35,11 +35,16 @@ const getOrders = () => {
   }
 };
 
-app.get('/api/energy-offerings', (req: Request, res: Response) => {
+app.get('/api/energy-offerings', async (req: Request, res: Response) => {
+  console.log('[REST API] GET /api/energy-offerings - Request received');
   try {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
     const config = getEnergyOfferings();
+    console.log('[REST API] GET /api/energy-offerings - Sending response with', Object.keys(config).length, 'keys');
     res.json(config);
   } catch (error) {
+    console.error('[REST API] GET /api/energy-offerings - Error:', error);
     res.status(500).json({
       error: 'Failed to load energy offerings configuration',
       message: error instanceof Error ? error.message : 'Unknown error'
