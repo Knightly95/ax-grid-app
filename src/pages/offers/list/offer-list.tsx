@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import type { GridColDef } from '@mui/x-data-grid';
 // import { useNavigate } from 'react-router-dom';
 import { Container, Typography, Box } from '@mui/material';
 
@@ -11,6 +10,7 @@ import { ChipFilter } from '@/shared/components/chip-filter';
 import { socketService } from '@/shared/services/socket/socketService';
 import { OfferDetailModal } from './components/offer-detail-modal';
 import { SourceTypeEnum, type SourceType } from '@/shared/types/offering';
+import { OFFER_COLUMNS } from './constants/columns';
 
 const SOURCE_TYPE_OPTIONS = Object.values(SourceTypeEnum);
 
@@ -51,10 +51,11 @@ export default function OfferList() {
     return actions;
   };
 
-  const filteredOffers =
-    selectedSources.length === 0
+  const filteredOffers = [
+    ...(selectedSources.length === 0
       ? offers
-      : offers.filter((offer) => selectedSources.includes(offer.sourceType));
+      : offers.filter((offer) => selectedSources.includes(offer.sourceType))),
+  ].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
 
   const handleSourceToggle = (source: SourceType) => {
     setSelectedSources((prev) =>
@@ -77,39 +78,6 @@ export default function OfferList() {
     }
   };
 
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 250 },
-    { field: 'sourceType', headerName: 'Source Type', width: 130 },
-    {
-      field: 'price',
-      headerName: 'Price',
-      type: 'number',
-      width: 100,
-    },
-    {
-      field: 'quantity',
-      headerName: 'Quantity',
-      type: 'number',
-      width: 100,
-    },
-    { field: 'unit', headerName: 'Unit', width: 80 },
-    { field: 'status', headerName: 'Status', width: 120 },
-    { field: 'vendor', headerName: 'Vendor', width: 180 },
-    { field: 'location', headerName: 'Location', width: 150 },
-    {
-      field: 'createdAt',
-      headerName: 'Created',
-      width: 150,
-      valueGetter: (value) => (value ? new Date(value).toLocaleDateString() : ''),
-    },
-    {
-      field: 'updatedAt',
-      headerName: 'Updated',
-      width: 150,
-      valueGetter: (value) => (value ? new Date(value).toLocaleDateString() : ''),
-    },
-  ];
-
   return (
     <Container maxWidth="xl">
       <Box sx={{ py: 4 }}>
@@ -129,7 +97,7 @@ export default function OfferList() {
           {offers.length === 0 ? (
             <Typography>No offers available. Waiting for data...</Typography>
           ) : (
-            <DataTable rows={filteredOffers} columns={columns} actions={getRowActions} />
+            <DataTable rows={filteredOffers} columns={OFFER_COLUMNS} actions={getRowActions} />
           )}
         </Box>
 

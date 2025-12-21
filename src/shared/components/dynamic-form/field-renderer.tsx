@@ -1,4 +1,3 @@
-import React from 'react';
 import { Controller, type Control, type FieldValues } from 'react-hook-form';
 import {
   TextField,
@@ -184,7 +183,7 @@ function renderFieldInput(
   value: string | string[],
   onChange: (value: string | string[]) => void,
   errorMessage?: string,
-): React.ReactElement | null {
+) {
   switch (field.type) {
     case 'number':
       return (

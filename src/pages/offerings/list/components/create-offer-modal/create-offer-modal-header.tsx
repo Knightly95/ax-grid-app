@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material';
+import type { ReactNode } from 'react';
 
 import type { SourceType } from '@/shared/types/offering';
 import { capitalizeFirstLetter } from '@/shared/utils/string';
@@ -6,7 +7,7 @@ import { capitalizeFirstLetter } from '@/shared/utils/string';
 interface CreateOfferModalHeaderProps {
   vendor: string;
   sourceType: SourceType;
-  sourceIcon: React.ReactNode;
+  sourceIcon: ReactNode;
   sourceColor: string;
 }
 

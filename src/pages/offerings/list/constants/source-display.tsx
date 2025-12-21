@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import {
   WbSunny as SolarIcon,
   LocalGasStation as GasIcon,
@@ -10,7 +11,7 @@ import {
 import { SourceTypeEnum } from '@/shared/types/offering';
 import type { SourceType } from '@/shared/types/offering';
 
-export const sourceIcons: Record<SourceType, React.ReactNode> = {
+export const sourceIcons: Record<SourceType, ReactNode> = {
   [SourceTypeEnum.SOLAR]: <SolarIcon />,
   [SourceTypeEnum.GAS]: <GasIcon />,
   [SourceTypeEnum.WIND]: <WindIcon />,

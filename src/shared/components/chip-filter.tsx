@@ -16,7 +16,7 @@ export function ChipFilter<T extends string | number>({
   selectedValues,
   onToggle,
   onClearAll,
-}: ChipFilterProps<T>): React.ReactElement {
+}: ChipFilterProps<T>) {
   return (
     <Box sx={{ mb: 2, px: 2, pt: 2, pb: 2, bgcolor: 'background.paper', borderRadius: 1 }}>
       <Typography variant="subtitle1" gutterBottom>

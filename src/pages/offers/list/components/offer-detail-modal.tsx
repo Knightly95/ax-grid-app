@@ -2,6 +2,8 @@ import { Box, Typography, Button } from '@mui/material';
 
 import type { Offer } from '@/shared/types/offer';
 import { Modal } from '@/shared/components/modal';
+import { StatusChip } from '../utils/status';
+import { formatCurrency } from '../utils/formatters';
 
 interface OfferDetailModalProps {
   open: boolean;
@@ -46,7 +48,7 @@ export function OfferDetailModal({ open, offer, onClose, onComplete }: OfferDeta
               <Typography variant="caption" color="text.secondary">
                 Price
               </Typography>
-              <Typography variant="body1">${offer.price}</Typography>
+              <Typography variant="body1">{formatCurrency(offer.price)}</Typography>
             </Box>
 
             <Box>
@@ -62,9 +64,9 @@ export function OfferDetailModal({ open, offer, onClose, onComplete }: OfferDeta
               <Typography variant="caption" color="text.secondary">
                 Status
               </Typography>
-              <Typography variant="body1" sx={{ textTransform: 'capitalize' }}>
-                {offer.status}
-              </Typography>
+              <Box sx={{ mt: 0.5 }}>
+                <StatusChip status={offer.status} />
+              </Box>
             </Box>
 
             <Box>
