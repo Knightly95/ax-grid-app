@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 import type { Offer } from '@/shared/types/offer';
-import type { ConnectionStatus } from '@/services/socket/socketEvents';
+import type { ConnectionStatus } from '@/shared/services/socket/socketEvents';
 
 interface OpsMetrics {
   totalOffers: number;

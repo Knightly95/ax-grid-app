@@ -17,7 +17,9 @@ import type { SourceType } from '@/shared/types/offering';
 import type { Offering } from '@/shared/types/offering';
 import { useOfferingsStore } from '@/store/offeringsStore';
 import { DynamicForm } from '@/shared/components/dynamic-form';
-import { useEnergyFormConfig } from '@/shared/hooks/useEnergyFormConfig';
+import { Loading } from '@/shared/components/loading';
+import { useEnergyOfferings } from '@/shared/services/energy-offerings';
+import { getEnergyFormFields } from '@/shared/utils/energy-form';
 
 const SOURCE_TYPES: { value: SourceType; label: string }[] = [
   { value: 'solar', label: 'Solar' },
@@ -34,11 +36,19 @@ export default function OfferingAdd() {
   const [selectedSource, setSelectedSource] = useState<SourceType | ''>('');
   const [vendor, setVendor] = useState('');
 
-  const { fields, displayUnits, sourceLabel } = useEnergyFormConfig(selectedSource || 'solar');
+  const { data: config, isLoading, error } = useEnergyOfferings();
+  const { fields, displayUnits, sourceLabel } = getEnergyFormFields(
+    config,
+    selectedSource || 'solar',
+  );
 
   const handleBack = () => {
     void navigate('/offerings');
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const handleSubmit = (values: FieldValues) => {
     if (!selectedSource || !vendor) {
@@ -65,6 +75,12 @@ export default function OfferingAdd() {
         <Typography variant="h4" component="h1" gutterBottom>
           Create New Offering
         </Typography>
+
+        {error && (
+          <Typography color="error" sx={{ mb: 2 }}>
+            Failed to load form configuration. Please try again.
+          </Typography>
+        )}
 
         <TextField
           fullWidth

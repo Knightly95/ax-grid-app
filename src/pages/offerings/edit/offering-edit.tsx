@@ -5,7 +5,9 @@ import { Container, Typography, Button, Box, Chip } from '@mui/material';
 import { useOfferingsStore } from '@/store/offeringsStore';
 import type { Offering } from '@/shared/types/offering';
 import { DynamicForm } from '@/shared/components/dynamic-form';
-import { useEnergyFormConfig } from '@/shared/hooks/useEnergyFormConfig';
+import { Loading } from '@/shared/components/loading';
+import { useEnergyOfferings } from '@/shared/services/energy-offerings';
+import { getEnergyFormFields } from '@/shared/utils/energy-form';
 
 export default function OfferingEdit() {
   const { id } = useParams<{ id: string }>();
@@ -16,13 +18,19 @@ export default function OfferingEdit() {
   );
   const updateOffering = useOfferingsStore((state) => state.updateOffering);
 
-  const { fields, displayUnits, sourceLabel } = useEnergyFormConfig(
+  const { data: config, isLoading } = useEnergyOfferings();
+  const { fields, displayUnits, sourceLabel } = getEnergyFormFields(
+    config,
     offering?.sourceType || 'solar',
   );
 
   const handleBack = () => {
     void navigate('/offerings');
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const handleSubmit = (values: FieldValues) => {
     if (!offering) return;

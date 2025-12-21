@@ -6,7 +6,7 @@ import { useOffersStore } from '@/store/offersStore';
 import { useSocket } from '@/shared/hooks/useSocket';
 import type { Offer } from '@/shared/types/offer';
 import { DataTable, type RowAction } from '@/shared/components/data-table';
-import { socketService } from '@/services/socket/socketService';
+import { socketService } from '@/shared/services/socket/socketService';
 
 export default function OfferList() {
   useSocket();

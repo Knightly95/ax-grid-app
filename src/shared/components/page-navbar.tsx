@@ -8,8 +8,7 @@ import Button from '@mui/material/Button';
 import AdbIcon from '@mui/icons-material/Adb';
 
 const pages = [
-  { label: 'Home', path: '/' },
-  { label: 'Offerings', path: '/offerings' },
+  { label: 'MarketPlace', path: '/offerings' },
   { label: 'Offers', path: '/offers' },
 ];
 
