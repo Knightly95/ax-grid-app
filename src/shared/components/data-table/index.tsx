@@ -7,6 +7,9 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import type { SxProps, Theme } from '@mui/material/styles';
 
+import { useRowChangeDetection } from './hooks/useRowChangeDetection';
+import { dataGridAnimationStyles } from './styles';
+
 export interface RowAction<T> {
   label: string;
   onClick: (row: T) => void;
@@ -14,10 +17,12 @@ export interface RowAction<T> {
   id?: string;
 }
 
-interface DataTableProps<T extends { id: string | number }> {
+export type RowActionsGetter<T> = (row: T) => RowAction<T>[];
+
+export interface DataTableProps<T extends { id: string | number }> {
   rows: T[];
   columns: GridColDef[];
-  actions?: RowAction<T>[];
+  actions?: RowAction<T>[] | ((row: T) => RowAction<T>[]);
   checkboxSelection?: boolean;
   pageSizeOptions?: number[];
   sx?: SxProps<Theme>;
@@ -28,12 +33,13 @@ export function DataTable<T extends { id: string | number }>({
   columns,
   actions,
   checkboxSelection = false,
-  pageSizeOptions = [5, 10, 25, 100],
+  pageSizeOptions = [10, 25, 50, 100],
   sx,
 }: DataTableProps<T>) {
   const paginationModel = { page: 0, pageSize: pageSizeOptions[0] };
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedRow, setSelectedRow] = useState<T | null>(null);
+  const { newRows, changedCells } = useRowChangeDetection(rows);
 
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>, row: T) => {
     event.stopPropagation();
@@ -58,11 +64,17 @@ export function DataTable<T extends { id: string | number }>({
     width: 80,
     sortable: false,
     filterable: false,
-    renderCell: (params) => (
-      <IconButton onClick={(e) => handleMenuClick(e, params.row as T)} size="small">
-        <MoreVertIcon />
-      </IconButton>
-    ),
+    renderCell: (params) => {
+      const row = params.row as T;
+      const rowActions = typeof actions === 'function' ? actions(row) : actions;
+      if (!rowActions || rowActions.length === 0) return null;
+
+      return (
+        <IconButton onClick={(e) => handleMenuClick(e, row)} size="small">
+          <MoreVertIcon />
+        </IconButton>
+      );
+    },
   };
 
   const allColumns = actions && actions.length > 0 ? [actionsColumn, ...columns] : columns;
@@ -76,10 +88,15 @@ export function DataTable<T extends { id: string | number }>({
           initialState={{ pagination: { paginationModel } }}
           pageSizeOptions={pageSizeOptions}
           checkboxSelection={checkboxSelection}
-          sx={{ border: 0 }}
+          getRowClassName={(params) => (newRows.has(params.id) ? 'row-flash-new' : '')}
+          getCellClassName={(params) => {
+            const changedFields = changedCells.get(params.id);
+            return changedFields && changedFields.has(params.field) ? 'cell-flash-changed' : '';
+          }}
+          sx={dataGridAnimationStyles}
         />
       </Paper>
-      {actions && actions.length > 0 && (
+      {actions && selectedRow && (
         <Menu
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
@@ -89,7 +106,7 @@ export function DataTable<T extends { id: string | number }>({
             horizontal: 'left',
           }}
         >
-          {actions.map((action) => (
+          {(typeof actions === 'function' ? actions(selectedRow) : actions).map((action) => (
             <MenuItem key={action.id || action.label} onClick={() => handleActionClick(action)}>
               {action.icon && <span style={{ marginRight: 8 }}>{action.icon}</span>}
               {action.label}

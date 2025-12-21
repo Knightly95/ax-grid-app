@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { GridColDef } from '@mui/x-data-grid';
 // import { useNavigate } from 'react-router-dom';
 import { Container, Typography, Box } from '@mui/material';
@@ -6,29 +7,75 @@ import { useOffersStore } from '@/store/offersStore';
 import { useSocket } from '@/shared/hooks/useSocket';
 import type { Offer } from '@/shared/types/offer';
 import { DataTable, type RowAction } from '@/shared/components/data-table';
+import { ChipFilter } from '@/shared/components/chip-filter';
 import { socketService } from '@/shared/services/socket/socketService';
+import { OfferDetailModal } from './components/offer-detail-modal';
+import { SourceTypeEnum, type SourceType } from '@/shared/types/offering';
+
+const SOURCE_TYPE_OPTIONS = Object.values(SourceTypeEnum);
 
 export default function OfferList() {
   useSocket();
   const offers = useOffersStore((state) => state.offers);
+  const [selectedSources, setSelectedSources] = useState<SourceType[]>([]);
+  const [viewingOffer, setViewingOffer] = useState<Offer | null>(null);
   // const navigate = useNavigate();
 
-  const rowActions: RowAction<Offer>[] = [
-    {
-      label: 'Edit',
-      onClick: (offer) => {
-        console.log('Edit offer:', offer);
-        // // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        // navigate(`/offers/edit/${offer.id}`);
+  const getRowActions = (offer: Offer): RowAction<Offer>[] => {
+    const actions: RowAction<Offer>[] = [
+      {
+        label: 'View Details',
+        onClick: (offer) => {
+          setViewingOffer(offer);
+        },
       },
-    },
-    {
-      label: 'Confirm',
-      onClick: (offer) => {
-        socketService.setOfferCompleted(offer.id);
+      {
+        label: 'Edit',
+        onClick: (offer) => {
+          console.log('Edit offer:', offer);
+          // // eslint-disable-next-line @typescript-eslint/no-floating-promises
+          // navigate(`/offers/edit/${offer.id}`);
+        },
       },
-    },
-  ];
+    ];
+
+    if (offer.status !== 'completed') {
+      actions.push({
+        label: 'Confirm',
+        onClick: (offer) => {
+          socketService.setOfferCompleted(offer.id);
+        },
+      });
+    }
+
+    return actions;
+  };
+
+  const filteredOffers =
+    selectedSources.length === 0
+      ? offers
+      : offers.filter((offer) => selectedSources.includes(offer.sourceType));
+
+  const handleSourceToggle = (source: SourceType) => {
+    setSelectedSources((prev) =>
+      prev.includes(source) ? prev.filter((s) => s !== source) : [...prev, source],
+    );
+  };
+
+  const handleClearAll = () => {
+    setSelectedSources([]);
+  };
+
+  const handleCloseModal = () => {
+    setViewingOffer(null);
+  };
+
+  const handleCompleteOffer = () => {
+    if (viewingOffer) {
+      socketService.setOfferCompleted(viewingOffer.id);
+      setViewingOffer(null);
+    }
+  };
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 250 },
@@ -70,13 +117,28 @@ export default function OfferList() {
           Energy Offers
         </Typography>
 
+        <ChipFilter
+          label="Filter by Energy Source"
+          options={SOURCE_TYPE_OPTIONS}
+          selectedValues={selectedSources}
+          onToggle={handleSourceToggle}
+          onClearAll={handleClearAll}
+        />
+
         <Box>
           {offers.length === 0 ? (
             <Typography>No offers available. Waiting for data...</Typography>
           ) : (
-            <DataTable rows={offers} columns={columns} actions={rowActions} />
+            <DataTable rows={filteredOffers} columns={columns} actions={getRowActions} />
           )}
         </Box>
+
+        <OfferDetailModal
+          open={viewingOffer !== null}
+          offer={viewingOffer}
+          onClose={handleCloseModal}
+          onComplete={handleCompleteOffer}
+        />
       </Box>
     </Container>
   );
