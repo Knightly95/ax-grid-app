@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useSocket } from '@/shared/hooks/useSocket';
 import Home from './pages/home/home';
 import OfferList from './pages/offers/list/offer-list';
-import OfferAdd from './pages/offers/add/offer-add';
-import OfferEdit from './pages/offers/edit/offer-edit';
+import OfferingList from './pages/offerings/list/offering-list';
+import OfferingAdd from './pages/offerings/add/offering-add';
+import OfferingEdit from './pages/offerings/edit/offering-edit';
 import PageNavbar from '@/shared/components/page-navbar';
 import './App.css';
 
@@ -26,9 +26,6 @@ const theme = createTheme({
 });
 
 function App() {
-  // Initialize WebSocket connection
-  useSocket();
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -40,8 +37,9 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/offers" element={<OfferList />} />
-              <Route path="/offers/add/:id" element={<OfferAdd />} />
-              <Route path="/offers/edit/:id" element={<OfferEdit />} />
+              <Route path="/offerings" element={<OfferingList />} />
+              <Route path="/offerings/add" element={<OfferingAdd />} />
+              <Route path="/offerings/edit/:id" element={<OfferingEdit />} />
             </Routes>
           </main>
         </div>

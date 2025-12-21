@@ -10,8 +10,11 @@ import {
   MenuItem,
   Button,
   Box,
+  TextField,
 } from '@mui/material';
-import type { SourceType } from '@/shared/types/offer';
+import type { SourceType } from '@/shared/types/offering';
+import type { Offering } from '@/shared/types/offering';
+import { useOfferingsStore } from '@/store/offeringsStore';
 import { DynamicForm } from '@/shared/components/dynamic-form';
 import { useEnergyFormConfig } from '@/shared/hooks/useEnergyFormConfig';
 
@@ -20,30 +23,57 @@ const SOURCE_TYPES: { value: SourceType; label: string }[] = [
   { value: 'gas', label: 'Gas' },
   { value: 'wind', label: 'Wind' },
   { value: 'hydro', label: 'Hydro' },
+  { value: 'kinetic', label: 'Kinetic' },
+  { value: 'thermal', label: 'Thermal' },
 ];
 
-export default function OfferAdd() {
+export default function OfferingAdd() {
   const navigate = useNavigate();
+  const addOffering = useOfferingsStore((state) => state.addOffering);
   const [selectedSource, setSelectedSource] = useState<SourceType | ''>('');
+  const [vendor, setVendor] = useState('');
 
   const { fields, displayUnits, sourceLabel } = useEnergyFormConfig(selectedSource || 'solar');
 
   const handleBack = () => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    navigate('/offers');
+    void navigate('/offerings');
   };
 
   const handleSubmit = (values: FieldValues) => {
-    console.log('Form submitted:', { sourceType: selectedSource, ...values });
-    // TODO: Integrate with socketService to create offer
+    if (!selectedSource || !vendor) {
+      alert('Please select a source type and enter vendor name');
+      return;
+    }
+
+    const newOffering = {
+      sourceType: selectedSource,
+      vendor,
+      ...values,
+    } as Omit<Offering, 'id' | 'createdAt' | 'updatedAt'>;
+
+    addOffering(newOffering);
+    void navigate('/offerings');
   };
 
   return (
     <Container maxWidth="md">
       <Box sx={{ py: 4 }}>
+        <Button variant="text" size="small" onClick={handleBack} sx={{ mb: 2 }}>
+          ← Back to Offerings
+        </Button>
         <Typography variant="h4" component="h1" gutterBottom>
-          Create New Offer
+          Create New Offering
         </Typography>
+
+        <TextField
+          fullWidth
+          required
+          label="Vendor Name"
+          value={vendor}
+          onChange={(e) => setVendor(e.target.value)}
+          placeholder="e.g., SolarCorp Inc."
+          sx={{ mb: 3 }}
+        />
 
         <FormControl fullWidth required sx={{ mb: 4 }}>
           <InputLabel id="sourceType-label">Energy Source Type</InputLabel>
@@ -68,7 +98,7 @@ export default function OfferAdd() {
         {selectedSource && (
           <Box>
             <Typography variant="h5" component="h2" gutterBottom>
-              {sourceLabel} Offer Details
+              {sourceLabel} Offering Details
             </Typography>
             <DynamicForm fields={fields} onSubmit={handleSubmit} displayUnits={displayUnits} />
           </Box>

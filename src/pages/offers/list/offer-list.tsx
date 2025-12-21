@@ -1,21 +1,24 @@
 import type { GridColDef } from '@mui/x-data-grid';
-import { useNavigate } from 'react-router-dom';
-import { Container, Typography, Button, Box } from '@mui/material';
+// import { useNavigate } from 'react-router-dom';
+import { Container, Typography, Box } from '@mui/material';
 import { useOffersStore } from '@/store/offersStore';
+import { useSocket } from '@/shared/hooks/useSocket';
 import type { Offer } from '@/shared/types/offer';
 import DataTable, { type RowAction } from '@/shared/components/data-table';
 import { socketService } from '@/services/socket/socketService';
 
 export default function OfferList() {
+  useSocket();
   const offers = useOffersStore((state) => state.offers);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const rowActions: RowAction<Offer>[] = [
     {
       label: 'Edit',
       onClick: (offer) => {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        navigate(`/offers/edit/${offer.id}`);
+        console.log('Edit offer:', offer);
+        // // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        // navigate(`/offers/edit/${offer.id}`);
       },
     },
     {
@@ -65,13 +68,6 @@ export default function OfferList() {
         <Typography variant="h4" component="h1" gutterBottom>
           Energy Offers
         </Typography>
-
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-          <Button variant="contained" onClick={() => navigate('/offers/add/new')}>
-            Add Offer
-          </Button>
-        </Box>
 
         <Box>
           {offers.length === 0 ? (

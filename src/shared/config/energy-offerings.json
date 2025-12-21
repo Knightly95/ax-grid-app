@@ -405,7 +405,7 @@
           "required": false
         },
         {
-          "key": "sourceType",
+          "key": "kineticSourceType",
           "label": "Kinetic Source Type",
           "type": "select",
           "options": [
