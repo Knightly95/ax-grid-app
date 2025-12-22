@@ -61,6 +61,7 @@ export function OfferingCard({ offering, onEdit, onDelete, onViewDetails }: Offe
 
   return (
     <Card
+      data-testid="offering-card"
       sx={{
         height: '100%',
         display: 'flex',
@@ -91,7 +92,12 @@ export function OfferingCard({ offering, onEdit, onDelete, onViewDetails }: Offe
             {capitalizeFirstLetter(offering.sourceType)}
           </Typography>
         </Box>
-        <IconButton size="small" onClick={handleMenuClick} sx={{ color: 'white' }}>
+        <IconButton
+          size="small"
+          onClick={handleMenuClick}
+          sx={{ color: 'white' }}
+          aria-label="More actions"
+        >
           <MoreVertIcon />
         </IconButton>
       </Box>

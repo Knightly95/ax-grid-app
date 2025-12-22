@@ -39,4 +39,38 @@ export class OfferingListPage {
       this.page.getByText(/start by creating your first energy offering/i),
     ).toBeVisible();
   }
+
+  /**
+   * Returns the first offering card on the list page.
+   */
+  getFirstCard() {
+    return this.page.getByTestId('offering-card').first();
+  }
+
+  async openEditForFirstCard() {
+    const card = this.getFirstCard();
+    const menuButton = card.getByRole('button', { name: /more actions/i });
+    await menuButton.click();
+    const editMenuItem = this.page.getByRole('menuitem', { name: /edit/i });
+    await editMenuItem.click();
+  }
+
+  async openCreateOfferModalForFirstCard() {
+    const card = this.getFirstCard();
+    const createOfferButton = card.getByRole('button', { name: /create offer/i });
+    await createOfferButton.click();
+  }
+
+  async fillQuantityAndSubmit(quantity: string) {
+    const quantityInput = this.page.getByLabel(/quantity/i);
+    await expect(quantityInput).toBeVisible();
+    await quantityInput.fill(quantity);
+    const submitButton = this.page.getByRole('button', { name: /submit/i });
+    await expect(submitButton).toBeVisible();
+    await submitButton.click();
+  }
+
+  async expectRedirectToOffers() {
+    await expect(this.page).toHaveURL(/\/offers$/);
+  }
 }
