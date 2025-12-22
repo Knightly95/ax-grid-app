@@ -12,6 +12,19 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'lcov'],
+      exclude: [
+        'playwright.config.ts',
+        'api/**',
+        'e2e/**',
+        'dist/**',
+        'eslint.config.js',
+        '**/vite.config.*',
+        '**/vitest.config.*',
+        '**/jest.config.*',
+        '**/test-results/**',
+        '**/coverage/**',
+        '**/node_modules/**',
+      ],
     },
     typecheck: {
       enabled: false,
