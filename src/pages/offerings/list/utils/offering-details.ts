@@ -27,10 +27,7 @@ export function getLocation(offering: Offering): string {
 }
 
 export function buildDetailFields(offering: Offering): DetailField[] {
-  const details: DetailField[] = [
-    { label: 'Vendor', value: offering.vendor },
-    { label: 'Source Type', value: offering.sourceType },
-  ];
+  const details: DetailField[] = [];
 
   const addDetail = (condition: boolean, label: string, value: string | number) => {
     if (condition) {

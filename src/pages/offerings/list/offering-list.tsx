@@ -62,7 +62,7 @@ export default function OfferingList() {
         <OfferingHeader onCreateClick={handleCreateClick} />
 
         {offerings.length === 0 ? (
-          <OfferingEmptyState onCreateClick={handleCreateClick} />
+          <OfferingEmptyState />
         ) : (
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
             {offerings.map((offering) => (
@@ -83,19 +83,20 @@ export default function OfferingList() {
                   onDelete={handleDelete}
                   onViewDetails={handleViewDetails}
                 />
-                <ConfirmDialog
-                  open={deleteConfirmOpen}
-                  title="Delete Offering"
-                  message="Are you sure you want to delete this offering? This action cannot be undone."
-                  confirmText="Delete"
-                  cancelText="Cancel"
-                  onConfirm={handleConfirmDelete}
-                  onCancel={handleCancelDelete}
-                />
               </Box>
             ))}
           </Box>
         )}
+
+        <ConfirmDialog
+          open={deleteConfirmOpen}
+          title="Delete Offering"
+          message="Are you sure you want to delete this offering? This action cannot be undone."
+          confirmText="Delete"
+          cancelText="Cancel"
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
 
         <CreateOfferModal
           offering={selectedOffering}

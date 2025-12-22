@@ -15,6 +15,13 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "preview:withoutBuild": "concurrently \"vite preview\" \"npm run ws\" --names \"frontend,backend\" --prefix-colors \"cyan,magenta\"",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug",
     "prepare": "husky"
   },
   "dependencies": {
@@ -34,10 +41,15 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@playwright/test": "^1.57.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.2",
+    "@vitest/ui": "^3.0.4",
     "concurrently": "^9.2.1",
     "eslint": "^9.39.1",
     "eslint-plugin-react-dom": "^2.3.13",
@@ -46,11 +58,13 @@
     "eslint-plugin-react-x": "^2.3.13",
     "globals": "^16.5.0",
     "husky": "^9.1.7",
+    "jsdom": "^25.0.1",
     "lint-staged": "^16.2.7",
     "prettier": "^3.4.2",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vitest": "^3.0.4"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [

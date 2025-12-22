@@ -1,4 +1,6 @@
 import { useForm, type SubmitHandler, type FieldValues } from 'react-hook-form';
+import { Button } from '@mui/material';
+
 import type { FormField } from '@/shared/types/form-config';
 import { FieldRenderer } from './field-renderer';
 
@@ -26,7 +28,6 @@ export function DynamicForm({
 
   return (
     <form
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit(onFormSubmit)}
       style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
     >
@@ -38,7 +39,9 @@ export function DynamicForm({
           displayUnits={displayUnits}
         />
       ))}
-      <button type="submit">Submit</button>
+      <Button type="submit" variant="contained" color="primary">
+        Submit
+      </Button>
     </form>
   );
 }
