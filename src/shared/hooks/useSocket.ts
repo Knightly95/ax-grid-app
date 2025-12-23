@@ -19,28 +19,23 @@ export function useSocket() {
     setConnectionStatus('connecting');
 
     socketService.onOffersInit((offers) => {
-      console.log('Received initial offers:', offers.length);
       setOffers(offers);
       setConnectionStatus(socketService.getConnectionStatus());
     });
 
     socketService.onOfferCreated((offer) => {
-      console.log('New offer created:', offer.id);
       addOffer(offer);
     });
 
     socketService.onOfferUpdated((offer) => {
-      console.log('Offer updated:', offer.id, offer.status);
       updateOffer(offer);
     });
 
     socketService.onOfferRemoved(({ id }) => {
-      console.log('Offer removed:', id);
       removeOffer(id);
     });
 
     socketService.onOpsMetric((metrics) => {
-      console.log('Metrics:', metrics);
       setMetrics(metrics);
     });
 

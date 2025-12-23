@@ -2,6 +2,10 @@
 
 This repository is a small React + TypeScript app bootstrapped with Vite.
 
+## Prerequisites
+
+You must have Node.js installed to use this project. This project was created with Node.js v24.12.0. Some older Node.js versions may cause errors or incompatibilities.
+
 Quick steps to get running locally:
 
 ## Install dependencies

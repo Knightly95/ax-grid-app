@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\" \"e2e/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\" \"e2e/**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "preview:withoutBuild": "concurrently \"vite preview\" \"npm run ws\" --names \"frontend,backend\" --prefix-colors \"cyan,magenta\"",
+    "preview:withoutBuild": "concurrently \"vite preview\" \"npm run api\" \"npm run ws\" --names \"frontend,rest-api,websocket\" --prefix-colors \"cyan,yellow,magenta\"",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
@@ -25,6 +25,9 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
     "@mui/x-data-grid": "^8.22.1",

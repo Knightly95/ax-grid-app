@@ -127,6 +127,8 @@ For showcasing purposes, I mocked the creation of energy offerings (the marketpl
 
 If I were to keep working on this app, I would:
 
+- **Check DRYness of the app:** I'd give the codebase another look with a focus on DRYing (Don't Repeat Yourself) components and pages to further improve maintainability and reduce duplication.
 - **Check accessibility more thoroughly:** I would review the app to make sure it’s accessible to all users, fixing any issues I missed.
 - **Finish workflows like offer editing:** I’d add an offer edit feature (likely as a modal, similar to the details view). Offers would be able to edit the amount of kW acquired, which should be straightforward to implement, i would rely on the REST API for submitting offers, and use Socket.io only for real-time offer updates (receiving the event from the backend api) to keep the UI in sync. I didnt do it because i though that i've done similar things in the app already that should highlight how i would have done it and i wanted to present the assignment before christmas.
 - **Add a graph library:** I’d consider adding a graph to show changes or trends, but this would require a more developed backend. If I had to mock it on the frontend, I’d want a meeting to clarify what’s important to visualize, so I don’t graph irrelevant data.
+- **Check naming of offers and offerings**

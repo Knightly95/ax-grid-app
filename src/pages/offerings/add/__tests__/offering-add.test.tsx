@@ -2,9 +2,11 @@ import { describe, it, expect, vi, beforeEach, afterEach, type Mock } from 'vite
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@/testing/test-utils';
+
+import type { EnergyOfferingsConfig } from '@/shared/types/form-config';
 import { useOfferingsStore } from '@/store/offeringsStore';
-import OfferingAdd from '../offering-add';
 import { mockSolarOffering, mockEnergyOfferings } from '@/testing/offering-fixtures';
+import OfferingAdd from '../offering-add';
 import { fillSolarOfferingForm } from './test-helpers';
 
 vi.mock('react-dom', async () => {
@@ -28,7 +30,7 @@ vi.mock('react-router-dom', async () => {
 
 let mockIsLoading = false;
 let mockError: unknown = null;
-let mockConfig: Record<string, unknown> = mockEnergyOfferings;
+let mockConfig: EnergyOfferingsConfig = mockEnergyOfferings;
 vi.mock('@/shared/services/energy-offerings', () => ({
   useEnergyOfferings: () => ({
     data: mockConfig,
