@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { REDIRECT_DELAY_MS } from '@/pages/offerings/list/constants/modal';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@/testing/test-utils';
 
@@ -131,10 +131,13 @@ describe('CreateOfferModal - Integration Tests', () => {
     it('should close modal and navigate to offers page after delay', async () => {
       render(<CreateOfferModal offering={mockSolarOffering} open={true} onClose={mockOnClose} />);
       await fillAndSubmitForm('200');
-      // Wait for the delay (REDIRECT_DELAY_MS + buffer)
-      await new Promise((resolve) => setTimeout(resolve, REDIRECT_DELAY_MS + 100));
-      expect(mockOnClose).toHaveBeenCalledTimes(1);
-      expect(mockNavigate).toHaveBeenCalledWith('/offers');
+      await waitFor(
+        () => {
+          expect(mockOnClose).toHaveBeenCalledTimes(1);
+          expect(mockNavigate).toHaveBeenCalledWith('/offers');
+        },
+        { timeout: REDIRECT_DELAY_MS + 500 },
+      );
     });
   });
 

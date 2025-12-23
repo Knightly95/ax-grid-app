@@ -32,7 +32,6 @@ test.describe('Offer List Page', () => {
 
   test('should confirm offer from modal and update status', async ({ page }) => {
     const row = offerListPage.getFirstPendingRow();
-    // Get the id from the cell with data-field="id" in the row
     const idCell = offerListPage.getIdCell(row);
     const id: string = (await idCell.getAttribute('title')) ?? '';
     await offerListPage.openRowActionMenu(row);

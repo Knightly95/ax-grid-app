@@ -20,7 +20,7 @@ import {
 
 import type { Offering } from '@/shared/types/offering';
 import { formatPrice } from '@/shared/utils/format';
-import { capitalizeFirstLetter } from '@/shared/utils/string';
+import { capitalize } from '@/shared/utils/string';
 
 import { getCapacity, getLocation } from '../utils/offering-details';
 import { OFFERING_CREATE_OFFER_BUTTON_TEXT } from '../constants/text';
@@ -89,7 +89,7 @@ export function OfferingCard({ offering, onEdit, onDelete, onViewDetails }: Offe
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           {sourceIcons[offering.sourceType]}
           <Typography variant="h6" fontWeight={600}>
-            {capitalizeFirstLetter(offering.sourceType)}
+            {capitalize(offering.sourceType)}
           </Typography>
         </Box>
         <IconButton

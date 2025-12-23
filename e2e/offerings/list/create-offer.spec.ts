@@ -15,11 +15,8 @@ test.describe('Create Offer from Offerings List', () => {
   });
 
   test('should open create offer modal, submit, and redirect to offers', async ({ page }) => {
-    // Open the create offer modal for the first offering card
     await listPage.openCreateOfferModalForFirstCard();
-    // Use POM to fill quantity and submit
     await listPage.fillQuantityAndSubmit('25');
-    // Use POM to assert redirect
     await listPage.expectRedirectToOffers();
   });
 });

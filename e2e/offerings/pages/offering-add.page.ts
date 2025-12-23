@@ -45,7 +45,6 @@ export class OfferingAddPage {
     await this.sourceTypeSelect.click();
     const option = this.page.getByRole('option', { name: new RegExp(sourceType, 'i') });
     await option.click();
-    // Wait for form fields to load
     await this.page.waitForTimeout(500);
   }
 

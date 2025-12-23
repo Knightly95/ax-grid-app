@@ -17,7 +17,7 @@ export class OfferingEditPage {
   constructor(page: Page) {
     this.page = page;
     this.vendorInput = page.getByRole('textbox', { name: /vendor name/i });
-    this.sourceTypeChip = page.getByRole('button', { name: /solar|wind|hydro/i }); // Chip label
+    this.sourceTypeChip = page.getByRole('button', { name: /solar|wind|hydro/i });
     this.submitButton = page.getByRole('button', { name: /submit/i });
     this.cancelButton = page.getByRole('button', { name: /cancel/i });
     this.backButton = page.getByRole('button', { name: /back to offerings/i });

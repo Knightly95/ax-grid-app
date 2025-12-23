@@ -2,23 +2,19 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { BaseOffering, SolarFields } from '@/shared/types/offering';
 
-/**
- * Fills out the add offering form for a solar offering.
- */
 export async function fillSolarOfferingForm(
   mock: BaseOffering & { sourceType: 'solar' } & SolarFields,
 ) {
-  // Fill vendor
   const vendorInput = screen.getByLabelText(/vendor name/i);
   await userEvent.clear(vendorInput);
   await userEvent.type(vendorInput, mock.vendor);
-  // Select source (simulate MUI Select)
+
   const sourceSelect = screen.getByLabelText(/energy source type/i);
   await userEvent.click(sourceSelect);
   await userEvent.click(screen.getByText(/solar/i));
-  // Wait for DynamicForm to appear
+
   await screen.findByText(/Solar Offering Details/i);
-  // Fill all required fields
+
   await userEvent.type(screen.getByLabelText(/price per unit/i), String(mock.price));
   await userEvent.type(
     screen.getByLabelText(/minimum purchase quantity/i),

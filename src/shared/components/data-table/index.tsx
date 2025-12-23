@@ -1,4 +1,4 @@
-import { useState, type MouseEvent, type ReactNode } from 'react';
+import { useState } from 'react';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
@@ -13,7 +13,7 @@ import { dataGridAnimationStyles } from './styles';
 export interface RowAction<T> {
   label: string;
   onClick: (row: T) => void;
-  icon?: ReactNode;
+  icon?: React.ReactNode;
   id?: string;
 }
 
@@ -41,7 +41,7 @@ export function DataTable<T extends { id: string | number }>({
   const [selectedRow, setSelectedRow] = useState<T | null>(null);
   const { newRows, changedCells } = useRowChangeDetection(rows);
 
-  const handleMenuClick = (event: MouseEvent<HTMLElement>, row: T) => {
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>, row: T) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
     setSelectedRow(row);

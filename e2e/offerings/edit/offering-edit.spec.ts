@@ -13,7 +13,7 @@ test.describe('Edit Offering', () => {
   test.beforeEach(async ({ page }) => {
     listPage = new OfferingListPage(page);
     editPage = new OfferingEditPage(page);
-    // Ensure an offering exists to edit
+
     await createOffering(page);
     await listPage.openEditForFirstCard();
     await editPage.expectToBeOnEditPage(SOLAR_OFFERING_DATA.vendor);

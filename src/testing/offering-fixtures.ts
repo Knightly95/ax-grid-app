@@ -1,3 +1,4 @@
+import type { EnergyOfferingsConfig } from '@/shared/types/form-config';
 import type {
   BaseOffering,
   SolarFields,
@@ -79,7 +80,7 @@ export const mockGasOfferingWithoutLocation: BaseOffering & { sourceType: 'gas' 
   updatedAt: Date.now(),
 };
 
-export const mockEnergyOfferings: Record<string, unknown> = {
+export const mockEnergyOfferings: EnergyOfferingsConfig = {
   common: [
     {
       key: 'price',

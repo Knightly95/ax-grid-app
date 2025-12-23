@@ -9,8 +9,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const WS_PORT = process.env.WS_PORT || 4001;
-const TICK_MIN_MS = parseInt(process.env.TICK_MIN_MS || '10000', 10); // 10 seconds
-const TICK_MAX_MS = parseInt(process.env.TICK_MAX_MS || '30000', 10); // 30 seconds
+const TICK_MIN_MS = parseInt(process.env.TICK_MIN_MS || '10000', 10); 
+const TICK_MAX_MS = parseInt(process.env.TICK_MAX_MS || '30000', 10);
 const OFFERS_FILE = join(__dirname, 'config', 'orders.json');
 
 interface Offer {

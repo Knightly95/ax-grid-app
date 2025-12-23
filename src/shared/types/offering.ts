@@ -1,4 +1,4 @@
-import { capitalizeFirstLetter } from '@/shared/utils/string';
+import { capitalize } from '@/shared/utils/string';
 
 export const SourceTypeEnum = {
   SOLAR: 'solar',
@@ -19,26 +19,22 @@ export interface SourceTypeOption {
 export const SOURCE_TYPE_OPTIONS: SourceTypeOption[] = Object.values(SourceTypeEnum).map(
   (value) => ({
     value,
-    label: capitalizeFirstLetter(value),
+    label: capitalize(value),
   }),
 );
 
-// Base offering fields (common to all source types)
 export interface BaseOffering {
   id: string;
   sourceType: SourceType;
   vendor: string;
   createdAt: number;
   updatedAt: number;
-
-  // Common fields from config
   price?: number;
   minQuantity?: number;
   contractTerms?: string;
   paymentTerms?: string;
 }
 
-// Source-specific fields
 export interface SolarFields {
   capacity: number;
   location: string;

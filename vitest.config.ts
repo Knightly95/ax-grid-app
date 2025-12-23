@@ -1,18 +1,14 @@
-
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 
-
 export default defineConfig({
   plugins: [react()],
   test: {
-    deps: {
-      inline: [
-        '@mui/x-data-grid',
-        '@mui/x-data-grid-pro',
-        '@mui/x-data-grid-premium',
-      ],
+    server: {
+      deps: {
+        inline: ['@mui/x-data-grid', '@mui/x-data-grid-pro', '@mui/x-data-grid-premium'],
+      },
     },
     globals: true,
     environment: 'jsdom',
