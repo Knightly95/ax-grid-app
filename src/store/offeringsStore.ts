@@ -22,9 +22,10 @@ export const useOfferingsStore = create<OfferingsState>()(
       setOfferings: (offerings) => set({ offerings }),
 
       addOffering: (offering) => {
-        //simple unique ID generation for assessment purposes
+        // Simple unique ID generation for assessment purposes
         const now = Date.now();
-        const id = `${now}-${Math.random().toString(36).substring(2, 9)}`;
+        const rand = Math.random().toString(36).slice(2, 9);
+        const id = `${now}-${rand}`;
         const newOffering: Offering = {
           ...offering,
           id,

@@ -12,7 +12,7 @@ import {
   mockGasOffering,
   mockHydroOffering,
   mockGasOfferingWithoutLocation,
-} from './test-fixtures';
+} from '../../../../../../testing/offering-fixtures';
 import { fillAndSubmitForm, getQuantityInput, expectModalToDisplay } from './test-helpers';
 import type { Mock } from 'vitest';
 

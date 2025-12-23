@@ -154,6 +154,7 @@ export function OfferingCard({ offering, onEdit, onDelete, onViewDetails }: Offe
 
         <Button
           variant="contained"
+          data-testid="create-offer-btn"
           fullWidth
           startIcon={<ShoppingCartIcon />}
           onClick={handleCreateOffer}

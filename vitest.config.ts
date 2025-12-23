@@ -1,10 +1,19 @@
+
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 
+
 export default defineConfig({
   plugins: [react()],
   test: {
+    deps: {
+      inline: [
+        '@mui/x-data-grid',
+        '@mui/x-data-grid-pro',
+        '@mui/x-data-grid-premium',
+      ],
+    },
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./src/testing/setup.ts'],
@@ -24,6 +33,7 @@ export default defineConfig({
         '**/test-results/**',
         '**/coverage/**',
         '**/node_modules/**',
+        'src/config.ts',
       ],
     },
     typecheck: {
@@ -33,8 +43,11 @@ export default defineConfig({
     testTimeout: 10000,
   },
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
+    alias: [
+      {
+        find: '@',
+        replacement: path.resolve(__dirname, './src'),
+      },
+    ],
   },
 });

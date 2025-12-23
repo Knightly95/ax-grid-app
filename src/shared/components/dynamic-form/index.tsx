@@ -33,7 +33,7 @@ export function DynamicForm({
     >
       {fields.map((field) => (
         <FieldRenderer
-          key={field.key}
+          key={field.key + '-' + field.label}
           field={field}
           control={control}
           displayUnits={displayUnits}

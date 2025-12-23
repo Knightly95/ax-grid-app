@@ -2,7 +2,7 @@ import { CircularProgress, Box, Container } from '@mui/material';
 
 export function Loading() {
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" data-testid="loading-component">
       <Box
         sx={{
           py: 4,
