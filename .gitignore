@@ -25,3 +25,9 @@ api/config/orders.json
 *.njsproj
 *.sln
 *.sw?
+
+# Playwright
+coverage/
+test-results/
+playwright-report/
+playwright/.cache/

@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import type { ReactNode } from 'react';
 
 import type { SourceType } from '@/shared/types/offering';
-import { capitalizeFirstLetter } from '@/shared/utils/string';
+import { capitalize } from '@/shared/utils/string';
 
 interface CreateOfferModalHeaderProps {
   vendor: string;
@@ -38,7 +38,7 @@ export function CreateOfferModalHeader({
           {vendor}
         </Typography>
         <Typography variant="body2" sx={{ opacity: 0.9 }}>
-          {capitalizeFirstLetter(sourceType)} Energy
+          {capitalize(sourceType)} Energy
         </Typography>
       </Box>
     </Box>

@@ -1,17 +1,8 @@
-import { Box, Typography, Button, alpha } from '@mui/material';
-import { Add as AddIcon } from '@mui/icons-material';
+import { Box, Typography, alpha } from '@mui/material';
 
-import {
-  OFFERING_EMPTY_STATE_TITLE,
-  OFFERING_EMPTY_STATE_MESSAGE,
-  OFFERING_CREATE_BUTTON_TEXT,
-} from '../constants/text';
+import { OFFERING_EMPTY_STATE_TITLE, OFFERING_EMPTY_STATE_MESSAGE } from '../constants/text';
 
-interface OfferingEmptyStateProps {
-  onCreateClick: () => void;
-}
-
-export function OfferingEmptyState({ onCreateClick }: OfferingEmptyStateProps) {
+export function OfferingEmptyState() {
   return (
     <Box
       sx={{
@@ -24,12 +15,9 @@ export function OfferingEmptyState({ onCreateClick }: OfferingEmptyStateProps) {
       <Typography variant="h6" color="text.secondary" gutterBottom>
         {OFFERING_EMPTY_STATE_TITLE}
       </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+      <Typography variant="body2" color="text.secondary">
         {OFFERING_EMPTY_STATE_MESSAGE}
       </Typography>
-      <Button variant="contained" startIcon={<AddIcon />} onClick={onCreateClick}>
-        {OFFERING_CREATE_BUTTON_TEXT}
-      </Button>
     </Box>
   );
 }

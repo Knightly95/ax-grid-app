@@ -8,7 +8,7 @@ interface OfferMetrics {
   avgPrice: number;
 }
 
-interface OffersState {
+export interface OffersState {
   offers: Offer[];
   connectionStatus: ConnectionStatus;
   metrics: OfferMetrics | null;

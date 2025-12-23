@@ -40,3 +40,7 @@ Useful scripts
 - `npm run build` — run TypeScript build and Vite production build
 - `npm run preview` — preview the production build locally with backend server
 - `npm run lint` — run ESLint checks
+- `npm test` — run unit/integration tests with Vitest
+- `npm run test:ui` — run tests with Vitest UI
+- `npm run test:coverage` — run tests with coverage report
+- `npm run test:e2e` — run Playwright E2E tests

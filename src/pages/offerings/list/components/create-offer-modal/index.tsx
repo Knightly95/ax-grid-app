@@ -71,7 +71,7 @@ export function CreateOfferModal({ offering, open, onClose }: CreateOfferModalPr
     setTimeout(() => {
       onClose();
       setOrderSuccess(false);
-      void navigate('/offers');
+      navigate('/offers');
     }, REDIRECT_DELAY_MS);
   };
 

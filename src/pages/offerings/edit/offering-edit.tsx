@@ -10,7 +10,6 @@ import { useEnergyOfferings } from '@/shared/services/energy-offerings';
 import { getEnergyFormFields } from '@/shared/utils/energy-form';
 import { PageHeader, PageActions } from '@/shared/components/page-navigation';
 import { convertOfferingToFormValues } from '../utils/form-converters';
-import { ErrorMessage } from '@/shared/components/error-message';
 
 export default function OfferingEdit() {
   const { id } = useParams<{ id: string }>();
@@ -43,7 +42,6 @@ export default function OfferingEdit() {
           <Typography variant="h4" component="h1" gutterBottom>
             Offering Not Found
           </Typography>
-          <ErrorMessage message="Offering not found" />
           <PageActions buttons={[{ label: 'Back to Offerings', onClick: handleBack }]} />
         </Box>
       </Container>
