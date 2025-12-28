@@ -63,8 +63,7 @@ describe('OfferList - Integration Tests', () => {
       (selector: (state: unknown) => unknown) => selector(offersStoreMock),
     );
     render(<OfferList />);
-    expect(screen.getByText(/no offers available/i)).toBeInTheDocument();
-    expect(screen.getByText(/waiting for data/i)).toBeInTheDocument();
+    expect(screen.getByText(/No energy offers available/i)).toBeInTheDocument();
   });
 
   it('should render all offer rows', () => {

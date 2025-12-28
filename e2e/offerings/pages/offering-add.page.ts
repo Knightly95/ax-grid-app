@@ -9,6 +9,8 @@ export interface OfferingFormData {
   minQuantity?: string;
   maxQuantity?: string;
   location?: string;
+  contractTerms?: string;
+  paymentTerms?: string;
 }
 
 /**
@@ -24,8 +26,8 @@ export class OfferingAddPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.vendorInput = page.getByRole('textbox', { name: /vendor name/i });
     this.sourceTypeSelect = page.locator('#sourceType');
+    this.vendorInput = page.getByRole('textbox', { name: /vendor name/i });
     this.submitButton = page.getByRole('button', { name: /submit/i });
     this.cancelButton = page.getByRole('button', { name: /cancel/i });
     this.backButton = page.getByRole('button', { name: /back to offerings/i });
@@ -49,43 +51,51 @@ export class OfferingAddPage {
   }
 
   async fillDynamicFields(data: Partial<OfferingFormData>) {
-    if (data.price) {
-      const priceInput = this.page.getByLabel(/price/i).first();
-      await priceInput.fill(data.price);
-    }
+    const textFields: Array<{ key: keyof OfferingFormData; label: RegExp }> = [
+      { key: 'price', label: /price/i },
+      { key: 'capacity', label: /capacity/i },
+      { key: 'minQuantity', label: /min.*quantity/i },
+      { key: 'maxQuantity', label: /max.*quantity/i },
+      { key: 'location', label: /location/i },
+    ];
 
-    if (data.capacity) {
-      const capacityInput = this.page.getByLabel(/capacity/i);
-      if (await capacityInput.isVisible()) {
-        await capacityInput.fill(data.capacity);
+    for (const { key, label } of textFields) {
+      const value = data[key as keyof typeof data];
+      if (value) {
+        const input = this.page.getByLabel(label);
+        if (await input.isVisible()) {
+          await input.fill(value);
+        }
       }
     }
 
-    if (data.minQuantity) {
-      const minQuantityInput = this.page.getByLabel(/min.*quantity/i);
-      if (await minQuantityInput.isVisible()) {
-        await minQuantityInput.fill(data.minQuantity);
-      }
-    }
+    const selectFields: Array<{ key: keyof OfferingFormData; selector: string }> = [
+      { key: 'contractTerms', selector: '#contractTerms' },
+      { key: 'paymentTerms', selector: '#paymentTerms' },
+    ];
 
-    if (data.maxQuantity) {
-      const maxQuantityInput = this.page.getByLabel(/max.*quantity/i);
-      if (await maxQuantityInput.isVisible()) {
-        await maxQuantityInput.fill(data.maxQuantity);
-      }
-    }
-
-    if (data.location) {
-      const locationInput = this.page.getByLabel(/location/i);
-      if (await locationInput.isVisible()) {
-        await locationInput.fill(data.location);
+    for (const { key, selector } of selectFields) {
+      const dropdown = this.page.locator(selector);
+      if (await dropdown.isVisible()) {
+        await dropdown.click();
+        const value = data[key as keyof typeof data];
+        let option;
+        if (value) {
+          option = this.page.locator(`li[role="option"][data-value="${value}"]`).first();
+          if (!(await option.isVisible())) {
+            option = this.page.locator('li[role="option"][data-value]:not([data-value=""])').first();
+          }
+        } else {
+          option = this.page.locator('li[role="option"][data-value]:not([data-value=""])').first();
+        }
+        await option.click();
       }
     }
   }
 
   async fillCompleteForm(data: OfferingFormData) {
-    await this.fillVendor(data.vendor);
     await this.selectSourceType(data.sourceType);
+    await this.fillVendor(data.vendor);
     await this.fillDynamicFields(data);
   }
 

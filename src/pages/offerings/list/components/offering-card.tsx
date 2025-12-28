@@ -68,6 +68,8 @@ export function OfferingCard({ offering, onEdit, onDelete, onViewDetails }: Offe
         flexDirection: 'column',
         position: 'relative',
         overflow: 'visible',
+        borderRadius: 2,
+        boxShadow: 2,
         transition: 'transform 0.2s, box-shadow 0.2s',
         '&:hover': {
           transform: 'translateY(-4px)',

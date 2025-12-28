@@ -38,16 +38,20 @@ function NumberFieldRenderer({
   displayUnits: boolean;
 } & BaseRendererProps) {
   const labelText = displayUnits && field.unit ? `${field.label} (${field.unit})` : field.label;
-
   return (
     <TextField
       fullWidth
       type="number"
-      label={labelText}
+      label={field.required ? `${labelText} *` : labelText}
       value={value as string}
       onChange={(e) => onChange(e.target.value)}
-      placeholder={field.placeholder}
-      required={field.required}
+      placeholder={
+        field.required
+          ? field.placeholder
+            ? `${field.placeholder} *`
+            : '* Required'
+          : field.placeholder
+      }
       error={!!error}
       helperText={error}
     />
@@ -65,11 +69,12 @@ function TextFieldRenderer({
   return (
     <TextField
       fullWidth
-      label={field.label}
+      label={field.required ? `${field.label} *` : field.label}
       value={value as string}
       onChange={(e) => onChange(e.target.value)}
-      placeholder={field.placeholder}
-      required={field.required}
+      placeholder={
+        field.required ? (field.placeholder ? `${field.placeholder} *` : '*') : field.placeholder
+      }
       error={!!error}
       helperText={error}
     />
@@ -85,8 +90,10 @@ function SelectFieldRenderer({
   field: Extract<FormField, { type: 'select' }>;
 } & BaseRendererProps) {
   return (
-    <FormControl fullWidth required={field.required} error={!!error}>
-      <InputLabel id={`${field.key}-label`}>{field.label}</InputLabel>
+    <FormControl fullWidth error={!!error}>
+      <InputLabel id={`${field.key}-label`} required={field.required}>
+        {field.label}
+      </InputLabel>
       <Select
         labelId={`${field.key}-label`}
         id={field.key}
@@ -117,8 +124,10 @@ function RadioFieldRenderer({
   field: Extract<FormField, { type: 'radio' }>;
 } & BaseRendererProps) {
   return (
-    <FormControl required={field.required} error={!!error}>
-      <FormLabel id={`${field.key}-label`}>{field.label}</FormLabel>
+    <FormControl error={!!error}>
+      <FormLabel id={`${field.key}-label`} required={field.required}>
+        {field.label}
+      </FormLabel>
       <RadioGroup
         aria-labelledby={`${field.key}-label`}
         name={field.key}
@@ -150,8 +159,10 @@ function CheckboxGroupFieldRenderer({
   const values = Array.isArray(value) ? value : [];
 
   return (
-    <FormControl required={field.required} error={!!error}>
-      <FormLabel component="legend">{field.label}</FormLabel>
+    <FormControl error={!!error}>
+      <FormLabel component="legend" required={field.required}>
+        {field.label}
+      </FormLabel>
       <FormGroup>
         {field.options.map((option) => (
           <FormControlLabel
@@ -226,7 +237,7 @@ export function FieldRenderer({ field, control, displayUnits }: FieldRendererPro
     <Controller
       name={field.key}
       control={control}
-      rules={{ required: field.required }}
+      rules={{ required: field.required ? `${field.label} is required` : false }}
       defaultValue={field.type === 'checkbox-group' ? [] : ''}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <>

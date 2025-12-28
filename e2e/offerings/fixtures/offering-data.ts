@@ -11,6 +11,8 @@ export const SOLAR_OFFERING_DATA: OfferingFormData = {
   minQuantity: '10',
   maxQuantity: '500',
   location: 'California',
+  contractTerms: 'spot',
+  paymentTerms: 'net30',
 };
 
 export const WIND_OFFERING_DATA: OfferingFormData = {
@@ -21,6 +23,8 @@ export const WIND_OFFERING_DATA: OfferingFormData = {
   minQuantity: '20',
   maxQuantity: '800',
   location: 'Texas',
+  contractTerms: 'monthly',
+  paymentTerms: 'net15',
 };
 
 export const HYDRO_OFFERING_DATA: OfferingFormData = {
@@ -31,4 +35,6 @@ export const HYDRO_OFFERING_DATA: OfferingFormData = {
   minQuantity: '15',
   maxQuantity: '600',
   location: 'Oregon',
+  contractTerms: 'quarterly',
+  paymentTerms: 'prepaid',
 };

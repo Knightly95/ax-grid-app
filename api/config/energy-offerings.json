@@ -5,7 +5,7 @@
       "label": "Price per Unit",
       "type": "number",
       "unit": "EUR/MWh",
-      "required": false,
+      "required": true,
       "placeholder": "e.g., 75"
     },
     {
@@ -13,7 +13,7 @@
       "label": "Minimum Purchase Quantity",
       "type": "number",
       "unit": "MWh",
-      "required": false,
+      "required": true,
       "placeholder": "e.g., 10"
     },
     {
@@ -34,7 +34,7 @@
           "label": "Quarterly"
         }
       ],
-      "required": false
+      "required": true
     },
     {
       "key": "paymentTerms",
@@ -54,7 +54,7 @@
           "label": "Prepaid"
         }
       ],
-      "required": false
+      "required": true
     }
   ],
   "sources": {

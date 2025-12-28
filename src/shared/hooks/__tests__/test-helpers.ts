@@ -8,8 +8,11 @@ export const mockSetConnectionStatus = vi.fn();
 export const mockSetMetrics = vi.fn();
 export const mockClearOffers = vi.fn();
 
-export function mockUseOffersStore() {
-  return {
+import type { OffersState } from '@/store/offersStore';
+export function mockUseOffersStore<T = Partial<OffersState>>(
+  selector?: (s: Partial<OffersState>) => T,
+): T {
+  const store = {
     setOffers: mockSetOffers,
     addOffer: mockAddOffer,
     updateOffer: mockUpdateOffer,
@@ -18,6 +21,7 @@ export function mockUseOffersStore() {
     setMetrics: mockSetMetrics,
     clearOffers: mockClearOffers,
   };
+  return typeof selector === 'function' ? selector(store) : (store as T);
 }
 
 export function resetOfferStoreMocks() {
@@ -45,6 +49,10 @@ export const mockSocketService = {
   setOfferProcessing: vi.fn(),
   setOfferCompleted: vi.fn(),
   isConnected: vi.fn(() => true),
+  getSocket: vi.fn(() => ({
+    on: vi.fn(),
+    off: vi.fn(),
+  })),
 };
 
 export function resetSocketServiceMocks() {

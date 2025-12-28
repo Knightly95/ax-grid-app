@@ -6,13 +6,22 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import AdbIcon from '@mui/icons-material/Adb';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import IconButton from '@mui/material/IconButton';
 
 const pages = [
   { label: 'MarketPlace', path: '/offerings' },
   { label: 'Offers', path: '/offers' },
 ];
 
-export function PageNavbar() {
+export function PageNavbar({
+  mode = 'dark',
+  onToggleMode,
+}: {
+  mode?: 'light' | 'dark';
+  onToggleMode?: () => void;
+}) {
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -47,6 +56,14 @@ export function PageNavbar() {
               </Button>
             ))}
           </Box>
+          <IconButton
+            sx={{ ml: 1 }}
+            onClick={onToggleMode}
+            color="inherit"
+            aria-label="toggle theme"
+          >
+            {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
         </Toolbar>
       </Container>
     </AppBar>

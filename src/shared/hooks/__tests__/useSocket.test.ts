@@ -16,7 +16,8 @@ import {
 } from './test-helpers';
 
 vi.mock('@/store/offersStore', () => ({
-  useOffersStore: () => mockUseOffersStore(),
+  useOffersStore: <T = unknown>(...args: Parameters<typeof mockUseOffersStore<T>>) =>
+    mockUseOffersStore<T>(...args),
   __mocks: {
     mockSetOffers,
     mockAddOffer,

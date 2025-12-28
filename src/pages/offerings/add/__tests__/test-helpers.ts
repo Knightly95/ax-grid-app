@@ -5,16 +5,15 @@ import type { BaseOffering, SolarFields } from '@/shared/types/offering';
 export async function fillSolarOfferingForm(
   mock: BaseOffering & { sourceType: 'solar' } & SolarFields,
 ) {
-  const vendorInput = screen.getByLabelText(/vendor name/i);
-  await userEvent.clear(vendorInput);
-  await userEvent.type(vendorInput, mock.vendor);
-
   const sourceSelect = screen.getByLabelText(/energy source type/i);
   await userEvent.click(sourceSelect);
   await userEvent.click(screen.getByText(/solar/i));
 
   await screen.findByText(/Solar Offering Details/i);
 
+  const vendorInput = screen.getByLabelText(/vendor name/i);
+  await userEvent.clear(vendorInput);
+  await userEvent.type(vendorInput, mock.vendor);
   await userEvent.type(screen.getByLabelText(/price per unit/i), String(mock.price));
   await userEvent.type(
     screen.getByLabelText(/minimum purchase quantity/i),

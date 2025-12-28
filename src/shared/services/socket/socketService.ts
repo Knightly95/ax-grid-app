@@ -126,6 +126,10 @@ class SocketService {
     const payload: OfferActionPayload = { id: offerId };
     this.socket?.emit(SOCKET_EVENTS.OFFERS_COMPLETED, payload);
   }
+
+  getSocket(): Socket | null {
+    return this.socket;
+  }
 }
 
 export const socketService = new SocketService();

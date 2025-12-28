@@ -9,7 +9,7 @@ export class OfferListPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.heading = page.getByRole('heading', { name: /energy offers/i });
+    this.heading = page.locator('[data-testid="offer-list-page-heading"]');
     this.table = page.locator('table');
     this.rows = page.locator('[role="row"].MuiDataGrid-row');
   }

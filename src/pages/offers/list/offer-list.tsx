@@ -81,21 +81,54 @@ export default function OfferList() {
   return (
     <Container maxWidth="xl">
       <Box sx={{ py: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography
+          variant="h4"
+          component="h1"
+          fontWeight={600}
+          gutterBottom
+          data-testid="offer-list-page-heading"
+        >
           Energy Offers
         </Typography>
 
-        <ChipFilter
-          label="Filter by Energy Source"
-          options={SOURCE_TYPE_OPTIONS}
-          selectedValues={selectedSources}
-          onToggle={handleSourceToggle}
-          onClearAll={handleClearAll}
-        />
+        {offers.length > 0 && (
+          <ChipFilter
+            label="Filter by Energy Source"
+            options={SOURCE_TYPE_OPTIONS}
+            selectedValues={selectedSources}
+            onToggle={handleSourceToggle}
+            onClearAll={handleClearAll}
+          />
+        )}
 
-        <Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: 240,
+          }}
+        >
           {offers.length === 0 ? (
-            <Typography>No offers available. Waiting for data...</Typography>
+            <Box
+              sx={{
+                textAlign: 'center',
+                py: 6,
+                px: 2,
+                borderRadius: 2,
+                bgcolor: 'background.paper',
+                boxShadow: 2,
+                maxWidth: 480,
+              }}
+            >
+              <Typography variant="h5" color="textSecondary" gutterBottom>
+                No energy offers available
+              </Typography>
+              <Typography variant="body1" color="textSecondary">
+                Please check back later or ensure your data source is connected.
+              </Typography>
+            </Box>
           ) : (
             <DataTable rows={filteredOffers} columns={OFFER_COLUMNS} actions={getRowActions} />
           )}

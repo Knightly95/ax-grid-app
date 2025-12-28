@@ -4,19 +4,30 @@ import { socketService } from '@/shared/services/socket/socketService';
 import { useOffersStore } from '@/store/offersStore';
 
 export function useSocket() {
-  const {
-    setOffers,
-    addOffer,
-    updateOffer,
-    removeOffer,
-    setConnectionStatus,
-    setMetrics,
-    clearOffers,
-  } = useOffersStore();
+  const setOffers = useOffersStore((s) => s.setOffers);
+  const addOffer = useOffersStore((s) => s.addOffer);
+  const updateOffer = useOffersStore((s) => s.updateOffer);
+  const removeOffer = useOffersStore((s) => s.removeOffer);
+  const setConnectionStatus = useOffersStore((s) => s.setConnectionStatus);
+  const setMetrics = useOffersStore((s) => s.setMetrics);
+  const clearOffers = useOffersStore((s) => s.clearOffers);
 
   useEffect(() => {
     socketService.connect();
     setConnectionStatus('connecting');
+
+    // Connection status event listeners
+    const handleConnect = () => setConnectionStatus('connected');
+    const handleDisconnect = () => setConnectionStatus('disconnected');
+    const handleError = () => setConnectionStatus('error');
+
+    // Attach event listeners directly to the socket instance
+    const socket = socketService.getSocket();
+    if (socket) {
+      socket.on('connect', handleConnect);
+      socket.on('disconnect', handleDisconnect);
+      socket.on('connect_error', handleError);
+    }
 
     socketService.onOffersInit((offers) => {
       setOffers(offers);
@@ -39,12 +50,12 @@ export function useSocket() {
       setMetrics(metrics);
     });
 
-    const statusInterval = setInterval(() => {
-      setConnectionStatus(socketService.getConnectionStatus());
-    }, 2000);
-
     return () => {
-      clearInterval(statusInterval);
+      if (socket) {
+        socket.off('connect', handleConnect);
+        socket.off('disconnect', handleDisconnect);
+        socket.off('connect_error', handleError);
+      }
       socketService.removeAllListeners();
       socketService.disconnect();
       clearOffers();

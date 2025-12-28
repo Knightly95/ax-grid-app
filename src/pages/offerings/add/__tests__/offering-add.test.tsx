@@ -66,7 +66,6 @@ describe('OfferingAdd - Integration Tests', () => {
   it('should render the add form and allow vendor/source selection', async () => {
     render(<OfferingAdd />);
     expect(screen.getByText(/Create New Offering/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/vendor name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/energy source type/i)).toBeInTheDocument();
   });
 

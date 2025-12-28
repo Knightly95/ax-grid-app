@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { FieldValues } from 'react-hook-form';
-import { Container, Typography, Box, Snackbar, Alert } from '@mui/material';
+import { Container, Typography, Box } from '@mui/material';
 
 import type { SourceType } from '@/shared/types/offering';
 import type { Offering } from '@/shared/types/offering';
@@ -12,20 +12,30 @@ import { useEnergyOfferings } from '@/shared/services/energy-offerings';
 import { getEnergyFormFields } from '@/shared/utils/energy-form';
 import { PageHeader, PageActions } from '@/shared/components/page-navigation';
 import { ErrorMessage } from '@/shared/components/error-message';
-import { SourceTypeSelect, VendorField } from './components/offering-form-fields';
+import { SourceTypeSelect } from './components/offering-form-fields';
+import type { FormField } from '@/shared/types/form-config';
 
 export default function OfferingAdd() {
   const navigate = useNavigate();
   const addOffering = useOfferingsStore((state) => state.addOffering);
-  const [selectedSource, setSelectedSource] = useState<SourceType | ''>('');
-  const [vendor, setVendor] = useState('');
-  const [showValidationError, setShowValidationError] = useState(false);
-
   const { data: config, isLoading, error } = useEnergyOfferings();
-  const { fields, displayUnits, sourceLabel } = getEnergyFormFields(
-    config,
-    selectedSource || 'solar',
-  );
+  const [selectedSource, setSelectedSource] = useState<SourceType | ''>('');
+  const {
+    fields: energyFields,
+    displayUnits,
+    sourceLabel,
+  } = getEnergyFormFields(config, selectedSource || 'solar');
+
+  const fields: FormField[] = [
+    {
+      key: 'vendor',
+      label: 'Vendor Name',
+      type: 'text',
+      required: true,
+      placeholder: 'e.g., SolarCorp Inc.',
+    },
+    ...energyFields,
+  ];
 
   const handleBack = () => {
     void navigate('/offerings');
@@ -36,14 +46,8 @@ export default function OfferingAdd() {
   }
 
   const handleSubmit = (values: FieldValues) => {
-    if (!selectedSource || !vendor) {
-      setShowValidationError(true);
-      return;
-    }
-
     const newOffering = {
       sourceType: selectedSource,
-      vendor,
       ...values,
     } as Omit<Offering, 'id' | 'createdAt' | 'updatedAt'>;
 
@@ -51,26 +55,22 @@ export default function OfferingAdd() {
     void navigate('/offerings');
   };
 
-  const handleCloseSnackbar = () => {
-    setShowValidationError(false);
-  };
-
   return (
     <Container maxWidth="md">
       <Box sx={{ py: 4 }}>
         <PageHeader buttons={[{ label: '← Back to Offerings', onClick: handleBack }]} />
 
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" fontWeight={600} gutterBottom>
           Create New Offering
         </Typography>
 
-        {error && <ErrorMessage message="Failed to load form configuration. Please try again." />}
+        {error ? (
+          <ErrorMessage message="Failed to load form configuration. Please try again later." />
+        ) : (
+          <SourceTypeSelect value={selectedSource} onChange={setSelectedSource} />
+        )}
 
-        <VendorField value={vendor} onChange={setVendor} />
-
-        <SourceTypeSelect value={selectedSource} onChange={setSelectedSource} />
-
-        {selectedSource && (
+        {selectedSource && fields.length > 0 && (
           <Box>
             <Typography variant="h5" component="h2" gutterBottom>
               {sourceLabel} Offering Details
@@ -81,17 +81,6 @@ export default function OfferingAdd() {
 
         <PageActions buttons={[{ label: 'Cancel', onClick: handleBack }]} />
       </Box>
-
-      <Snackbar
-        open={showValidationError}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
-          Please select a source type and enter vendor name
-        </Alert>
-      </Snackbar>
     </Container>
   );
 }

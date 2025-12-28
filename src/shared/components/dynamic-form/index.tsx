@@ -19,7 +19,7 @@ export function DynamicForm({
 }: DynamicFormProps) {
   const { control, handleSubmit } = useForm({
     defaultValues: initialValues,
-    mode: 'onBlur',
+    mode: 'onSubmit',
   });
 
   const onFormSubmit: SubmitHandler<FieldValues> = (data) => {

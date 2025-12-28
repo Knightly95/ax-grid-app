@@ -27,16 +27,10 @@ test.describe('Create Offering', () => {
 
   test('should show validation error when vendor name is missing', async ({ page }) => {
     await formPage.selectSourceType(SOLAR_OFFERING_DATA.sourceType);
-    await formPage.fillDynamicFields({
-      price: SOLAR_OFFERING_DATA.price,
-      capacity: SOLAR_OFFERING_DATA.capacity,
-      minQuantity: SOLAR_OFFERING_DATA.minQuantity,
-      maxQuantity: SOLAR_OFFERING_DATA.maxQuantity,
-      location: SOLAR_OFFERING_DATA.location,
-    });
+
     await formPage.submit();
 
-    await formPage.expectValidationError(/please select a source type and enter vendor name/i);
+    await formPage.expectValidationError(/vendor name is required/i);
     await formPage.expectToBeOnAddPage();
   });
 
