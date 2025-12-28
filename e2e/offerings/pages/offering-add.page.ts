@@ -83,7 +83,9 @@ export class OfferingAddPage {
         if (value) {
           option = this.page.locator(`li[role="option"][data-value="${value}"]`).first();
           if (!(await option.isVisible())) {
-            option = this.page.locator('li[role="option"][data-value]:not([data-value=""])').first();
+            option = this.page
+              .locator('li[role="option"][data-value]:not([data-value=""])')
+              .first();
           }
         } else {
           option = this.page.locator('li[role="option"][data-value]:not([data-value=""])').first();
