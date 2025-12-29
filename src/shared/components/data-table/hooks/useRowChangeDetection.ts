@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
 const HIGHLIGHT_DURATION_MS = 3000;
+const MAX_NEW_ROWS_TO_FLASH = 1;
 
 interface UseRowChangeDetectionReturn {
   newRows: Set<string | number>;
@@ -15,6 +16,7 @@ export function useRowChangeDetection<T extends { id: string | number }>(
     () => new Map(),
   );
   const prevRowsRef = useRef<Map<string | number, T>>(new Map());
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
     const newRowIds = new Set<string | number>();
@@ -43,10 +45,14 @@ export function useRowChangeDetection<T extends { id: string | number }>(
     rows.forEach((row) => newRowsMap.set(row.id, row));
     prevRowsRef.current = newRowsMap;
 
-    if (newRowIds.size > 0 || changedCellsMap.size > 0) {
+    const shouldFlashNewRows =
+      !isFirstRender.current && newRowIds.size > 0 && newRowIds.size <= MAX_NEW_ROWS_TO_FLASH;
+    const shouldFlashChangedCells = !isFirstRender.current && changedCellsMap.size > 0;
+
+    if (shouldFlashNewRows || shouldFlashChangedCells) {
       const flashTimer = setTimeout(() => {
-        if (newRowIds.size > 0) setNewRows(newRowIds);
-        if (changedCellsMap.size > 0) setChangedCells(changedCellsMap);
+        if (shouldFlashNewRows) setNewRows(newRowIds);
+        if (shouldFlashChangedCells) setChangedCells(changedCellsMap);
       }, 0);
 
       const clearTimer = setTimeout(() => {
@@ -58,6 +64,10 @@ export function useRowChangeDetection<T extends { id: string | number }>(
         clearTimeout(flashTimer);
         clearTimeout(clearTimer);
       };
+    }
+
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
     }
   }, [rows]);
 
